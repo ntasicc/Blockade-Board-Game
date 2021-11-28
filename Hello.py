@@ -1,1 +1,0 @@
-print("Obrisi ovo posle")
