@@ -1,5 +1,5 @@
 from Pawns import initialStateOfPawns, pawnsDict
-
+from Walls import wallDict
 
 initialStateOfPawns(pawnsDict, (2, 2), (5, 2), (3, 5), (5, 5))
 
@@ -36,6 +36,19 @@ def DrawGrid(pawnsPosition: pawnsDict, tableSize: int):
             red[0] = "||"
             red[newTableSize - 1] = "||"
         tabla.append(red)
+
+    # Dodavanje zidova
+    for i in range(0, len(list(wallDict['V']))):
+        tabla[(wallDict['V'][i][0] + 1) *
+              2][wallDict['V'][i][1] * 2 + 1] = "==="
+        tabla[(wallDict['V'][i][0] + 1) *
+              2][wallDict['V'][i][1] * 2 + 3] = "==="
+
+    for i in range(0, len(list(wallDict['H']))):
+        tabla[wallDict['H'][i][0] * 2 +
+              1][(wallDict['H'][i][1] + 1) * 2] = " ||"
+        tabla[wallDict['H'][i][0] * 2 +
+              3][(wallDict['H'][i][1] + 1) * 2] = " ||"
 
     for i in range(0, newTableSize):
         for j in range(0, newTableSize):
