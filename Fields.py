@@ -34,4 +34,3 @@ def initialStateOfFields(dictionary: dict, m: int, n: int):
 
 
 initialStateOfFields(fieldsDict, 4, 3)
-print(fieldsDict)
