@@ -4,13 +4,13 @@ from Walls import wallDict
 initialStateOfPawns(pawnsDict, (2, 2), (5, 2), (3, 5), (5, 5))
 
 
-def DrawGrid(pawnsPosition: pawnsDict, tableSize: int):
+def DrawGrid(pawnsPosition: pawnsDict, tableSizeN: int, tableSizeM: int):
 
     # Pozicije je matrica sa svim pozicijama, tu menjamo pozicije za X i O
     pozicije = list()
-    for i in range(0, tableSize):
+    for i in range(0, tableSizeN):
         red = list()
-        for j in range(0, tableSize):
+        for j in range(0, tableSizeM):
             red.append(' ')
         pozicije.append(red)
     pozicije[pawnsPosition['X'][0][1] - 1][pawnsPosition['X'][0][0] - 1] = 'X'
@@ -20,21 +20,22 @@ def DrawGrid(pawnsPosition: pawnsDict, tableSize: int):
 
     # Tabla sluzi samo za stampanje
     tabla = list()
-    newTableSize = tableSize * 2 + 1
-    for i in range(0, newTableSize):
+    newTableSizeN = tableSizeN * 2 + 1
+    newTableSizeM = tableSizeM * 2 + 1
+    for i in range(0, newTableSizeN):
         red = list()
         if (i % 2 == 0):
-            for j in range(0, newTableSize):
-                if (i == 0 or i == newTableSize - 1):
+            for j in range(0, newTableSizeM):
+                if (i == 0 or i == newTableSizeN - 1):
                     red.append(" " if (j % 2 == 0) else "===")
                 else:
                     red.append(" " if (j % 2 == 0) else "———")
         else:
-            for j in range(0, newTableSize):
+            for j in range(0, newTableSizeM):
                 red.append(" | " if (j % 2 == 0)
                            else pozicije[(i - 1) // 2][(j - 1) // 2])
             red[0] = "||"
-            red[newTableSize - 1] = "||"
+            red[newTableSizeM - 1] = "||"
         tabla.append(red)
 
     # Dodavanje zidova
@@ -50,10 +51,10 @@ def DrawGrid(pawnsPosition: pawnsDict, tableSize: int):
         tabla[wallDict['H'][i][0] * 2 +
               3][(wallDict['H'][i][1] + 1) * 2] = " ||"
 
-    for i in range(0, newTableSize):
-        for j in range(0, newTableSize):
+    for i in range(0, newTableSizeN):
+        for j in range(0, newTableSizeM):
             print(tabla[i][j], end=" ")
         print('\n')
 
 
-DrawGrid(pawnsDict, 8)
+DrawGrid(pawnsDict, 8, 10)
