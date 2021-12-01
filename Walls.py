@@ -38,7 +38,7 @@ def validWall(color: str, newsSpot: tuple, tableSizeN, tableSizeM):
             if(x == newsSpot):
                 return False
             if(x[1] == newsSpot[1] and x[0] == newsSpot[0]+1):
-                return
+                return False
             if(x[1] == newsSpot[1] and x[0] == newsSpot[0] - 1):
                 return False
         for x in wallDict['H']:
