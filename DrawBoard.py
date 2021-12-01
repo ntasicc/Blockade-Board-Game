@@ -3,11 +3,20 @@ from Walls import wallDict
 
 initialStateOfPawns(pawnsDict, (2, 2), (5, 2), (3, 5), (5, 5))
 
+pozicije = list()
+tabla = list()
+
 
 def DrawGrid(pawnsPosition: pawnsDict, tableSizeN: int, tableSizeM: int):
 
-    # Pozicije je matrica sa svim pozicijama, tu menjamo pozicije za X i O
-    pozicije = list()
+    StartingBoardState(pawnsPosition, tableSizeN, tableSizeM)
+    StartingBoard(tableSizeN, tableSizeM)
+    AddWalls()
+    DrawTable()
+
+
+def StartingBoardState(pawnsPosition: pawnsDict, tableSizeN: int, tableSizeM: int):
+    # Pozicije je matrica sa pocetnim stanjima table - prazna mesta i igraci
     for i in range(0, tableSizeN):
         red = list()
         for j in range(0, tableSizeM):
@@ -18,8 +27,9 @@ def DrawGrid(pawnsPosition: pawnsDict, tableSizeN: int, tableSizeM: int):
     pozicije[pawnsPosition['O'][0][1] - 1][pawnsPosition['O'][0][0] - 1] = 'O'
     pozicije[pawnsPosition['O'][1][1] - 1][pawnsPosition['O'][1][0] - 1] = 'O'
 
-    # Tabla sluzi samo za stampanje
-    tabla = list()
+
+def StartingBoard(tableSizeN: int, tableSizeM: int):
+    # Tabla je matrica koja ce da se stampa, sadrzi igrace, prazna polja i zidove
     newTableSizeN = tableSizeN * 2 + 1
     newTableSizeM = tableSizeM * 2 + 1
     for i in range(0, newTableSizeN):
@@ -38,21 +48,26 @@ def DrawGrid(pawnsPosition: pawnsDict, tableSizeN: int, tableSizeM: int):
             red[newTableSizeM - 1] = "||"
         tabla.append(red)
 
-    # Dodavanje zidova
-    for i in range(0, len(list(wallDict['V']))):
-        tabla[(wallDict['V'][i][0] + 1) *
-              2][wallDict['V'][i][1] * 2 + 1] = "==="
-        tabla[(wallDict['V'][i][0] + 1) *
-              2][wallDict['V'][i][1] * 2 + 3] = "==="
 
+def AddWalls():
+    # Dodavanje zidova u tablu koja se iscrtava
     for i in range(0, len(list(wallDict['H']))):
-        tabla[wallDict['H'][i][0] * 2 +
-              1][(wallDict['H'][i][1] + 1) * 2] = " ||"
-        tabla[wallDict['H'][i][0] * 2 +
-              3][(wallDict['H'][i][1] + 1) * 2] = " ||"
+        tabla[(wallDict['H'][i][0] + 1) *
+              2][wallDict['H'][i][1] * 2 + 1] = "==="
+        tabla[(wallDict['H'][i][0] + 1) *
+              2][wallDict['H'][i][1] * 2 + 3] = "==="
 
-    for i in range(0, newTableSizeN):
-        for j in range(0, newTableSizeM):
+    for i in range(0, len(list(wallDict['V']))):
+        tabla[wallDict['V'][i][0] * 2 +
+              1][(wallDict['V'][i][1] + 1) * 2] = " ||"
+        tabla[wallDict['V'][i][0] * 2 +
+              3][(wallDict['V'][i][1] + 1) * 2] = " ||"
+
+
+def DrawTable():
+    # Iscrtava matricu table, treba da se pozove nakon svakog dodavanja zida (AddWalls)
+    for i in range(0, len(tabla)):
+        for j in range(0, len(tabla[i])):
             print(tabla[i][j], end=" ")
         print('\n')
 
