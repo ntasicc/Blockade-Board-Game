@@ -7,21 +7,33 @@ pozicije = list()
 tabla = list()
 
 
-def DrawGrid(pawnsPosition: pawnsDict, tableSizeN: int, tableSizeM: int):
-
-    StartingBoardState(pawnsPosition, tableSizeN, tableSizeM)
+def DrawStart(pawnsPosition: pawnsDict, tableSizeN: int, tableSizeM: int):
+    # Ovo se poziva samo za prvo iscrtavanje
+    StartingBoardState(tableSizeN, tableSizeM)
     StartingBoard(tableSizeN, tableSizeM)
+    UpdatePawns(pawnsPosition)
     AddWalls()
     DrawTable()
 
 
-def StartingBoardState(pawnsPosition: pawnsDict, tableSizeN: int, tableSizeM: int):
-    # Pozicije je matrica sa pocetnim stanjima table - prazna mesta i igraci
+def DrawMove(pawnsPosition: pawnsDict, tableSizeN: int, tableSizeM: int):
+    # Ovo se poziva za svaki potez
+    UpdatePawns(pawnsPosition)
+    AddWalls()
+    DrawTable()
+
+
+def StartingBoardState(tableSizeN: int, tableSizeM: int):
+    # Pozicije je matrica sa pocetnim stanjima table - prazna mesta
     for i in range(0, tableSizeN):
         red = list()
         for j in range(0, tableSizeM):
             red.append(' ')
         pozicije.append(red)
+
+
+def UpdatePawns(pawnsPosition: pawnsDict):
+    # Dodaju se igraci - ovo se poziva pri svakom pomeranju pesaka
     pozicije[pawnsPosition['X'][0][1] - 1][pawnsPosition['X'][0][0] - 1] = 'X'
     pozicije[pawnsPosition['X'][1][1] - 1][pawnsPosition['X'][1][0] - 1] = 'X'
     pozicije[pawnsPosition['O'][0][1] - 1][pawnsPosition['O'][0][0] - 1] = 'O'
@@ -72,4 +84,4 @@ def DrawTable():
         print('\n')
 
 
-DrawGrid(pawnsDict, 8, 10)
+DrawStart(pawnsDict, 8, 10)
