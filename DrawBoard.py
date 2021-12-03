@@ -1,5 +1,10 @@
-from Pawns import initialStateOfPawns, pawnsDict
+from Pawns import initialStateOfPawns
 from Walls import wallDict
+
+pawnsDict = {
+    'X': [],
+    'O': [],
+}
 
 initialStateOfPawns(pawnsDict, (2, 2), (5, 2), (3, 5), (5, 5))
 
@@ -10,8 +15,8 @@ tabla = list()
 def DrawStart(pawnsPosition: pawnsDict, tableSizeN: int, tableSizeM: int):
     # Ovo se poziva samo za prvo iscrtavanje
     StartingBoardState(tableSizeN, tableSizeM)
-    StartingBoard(tableSizeN, tableSizeM)
     UpdatePawns(pawnsPosition)
+    StartingBoard(tableSizeN, tableSizeM)
     AddWalls()
     DrawTable()
 
@@ -38,6 +43,57 @@ def UpdatePawns(pawnsPosition: pawnsDict):
     pozicije[pawnsPosition['X'][1][1] - 1][pawnsPosition['X'][1][0] - 1] = 'X'
     pozicije[pawnsPosition['O'][0][1] - 1][pawnsPosition['O'][0][0] - 1] = 'O'
     pozicije[pawnsPosition['O'][1][1] - 1][pawnsPosition['O'][1][0] - 1] = 'O'
+
+
+def ValidatePawnMove(player: str, pawn: int, newSpot: tuple):
+    if (newSpot[1] > len(pozicije)):
+        return False
+    elif (newSpot[0] > len(pozicije[0])):
+        return False
+
+    # new_spot je nova pozicija u matrici sa zidovima, a newSpot je samo u matrici stanja
+    newX = newSpot[0] * 2 - 1
+    newY = newSpot[1] * 2 - 1
+    # oldSpot je stara pozicija u matrici stanja
+    oldSpot = pawnsDict[player][pawn - 1]
+    # old_spot je stara pozicija u matrici sa zidovima
+    oldX = oldSpot[0] * 2 - 1
+    oldY = oldSpot[1] * 2 - 1
+
+    # OVDE IDE TASINO
+    #
+    #
+    #
+
+    # Dijagonala gore levo
+    if newSpot[0] == oldSpot[0] - 1 and newSpot[1] == oldSpot[1] - 1:
+        if ((tabla[newX][newY + 1] == ' ||' and tabla[newX + 2][newY + 1] == ' ||') or
+            (tabla[newX + 1][newY] == '===' and tabla[newX + 1][newY + 2] == '===') or
+            (tabla[newX][newY + 1] == ' ||' and tabla[newX + 1][newY] == '===') or
+                (tabla[newX + 2][newY + 1] == ' ||' and tabla[newX + 1][newY + 2] == '===')):
+            return False
+    # Dijagonala gore desno
+    elif newSpot[0] == oldSpot[0] - 1 and newSpot[1] == oldSpot[1] + 1:
+        if ((tabla[newX][newY - 1] == ' ||' and tabla[newX + 2][newY - 1] == ' ||') or
+            (tabla[newX + 1][newY] == '===' and tabla[newX + 1][newY - 2] == '===') or
+            (tabla[newX][newY - 1] == ' ||' and tabla[newX + 1][newY] == '===') or
+                (tabla[newX + 2][newY - 1] == ' ||' and tabla[newX + 1][newY - 2] == '===')):
+            return False
+    # Dijagonala dole desno
+    elif newSpot[0] == oldSpot[0] + 1 and newSpot[1] == oldSpot[1] + 1:
+        if ((tabla[newX - 2][newY - 1] == ' ||' and tabla[newX][newY - 1] == ' ||') or
+            (tabla[newX - 1][newY - 2] == '===' and tabla[newX - 1][newY] == '===') or
+            (tabla[newX][newY - 1] == ' ||' and tabla[newX - 1][newY] == '===') or
+                (tabla[newX - 2][newY - 1] == ' ||' and tabla[newX - 1][newY - 2] == '===')):
+            return False
+    # Dijagonala dole levo
+    elif newSpot[0] == oldSpot[0] + 1 and newSpot[1] == oldSpot[1] - 1:
+        if ((tabla[newX - 2][newY + 1] == ' ||' and tabla[newX][newY + 1] == ' ||') or
+            (tabla[newX - 1][newY] == '===' and tabla[newX - 1][newY + 2] == '===') or
+            (tabla[newX][newY + 1] == ' ||' and tabla[newX - 1][newY] == '===') or
+                (tabla[newX - 2][newY + 1] == ' ||' and tabla[newX - 1][newY + 2] == '===')):
+            return False
+    return True
 
 
 def StartingBoard(tableSizeN: int, tableSizeM: int):
@@ -85,3 +141,4 @@ def DrawTable():
 
 
 DrawStart(pawnsDict, 8, 10)
+print(ValidatePawnMove('O', 2, (6, 4)))
