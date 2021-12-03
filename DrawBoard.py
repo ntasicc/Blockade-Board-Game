@@ -1,5 +1,6 @@
-from Pawns import initialStateOfPawns
+from Pawns import initialStateOfPawns, movePawn, pawnsDict
 from Walls import wallDict
+
 
 pawnsDict = {
     'X': [],
@@ -60,10 +61,25 @@ def ValidatePawnMove(player: str, pawn: int, newSpot: tuple):
     oldX = oldSpot[0] * 2 - 1
     oldY = oldSpot[1] * 2 - 1
 
-    # OVDE IDE TASINO
-    #
-    #
-    #
+    # Gore
+    if(newSpot[0] < oldSpot[0] and newSpot[1] == oldSpot[1]):
+        if(tabla[newX+1][newY] == '===' or tabla[newX+3][newY] == '==='):
+            return False
+
+    # Dole
+    if(newSpot[0] > oldSpot[0] and newSpot[1] == oldSpot[1]):
+        if(tabla[newX-1][newY] == '===' or tabla[newX-3][newY] == '==='):
+            return False
+
+    # Levo
+    if(newSpot[0] == oldSpot[0] and newSpot[1] < oldSpot[1]):
+        if(tabla[newX][newY+1] == ' ||' or tabla[newX][newY+3] == ' ||'):
+            return False
+
+    # Desno
+    if(newSpot[0] == oldSpot[0] and newSpot[1] > oldSpot[1]):
+        if(tabla[newX][newY-1] == ' ||' or tabla[newX][newY-3] == ' ||'):
+            return False
 
     # Dijagonala gore levo
     if newSpot[0] == oldSpot[0] - 1 and newSpot[1] == oldSpot[1] - 1:
@@ -94,6 +110,7 @@ def ValidatePawnMove(player: str, pawn: int, newSpot: tuple):
                 (tabla[newX - 2][newY + 1] == ' ||' and tabla[newX - 1][newY + 2] == '===')):
             return False
     return True
+    #movePawn(pawnsDict, player, pawn, newSpot)
 
 
 def StartingBoard(tableSizeN: int, tableSizeM: int):
@@ -141,4 +158,4 @@ def DrawTable():
 
 
 DrawStart(pawnsDict, 8, 10)
-print(ValidatePawnMove('O', 2, (6, 4)))
+print(ValidatePawnMove('X', 1, (1, 3)))
