@@ -12,8 +12,6 @@ def initialStateOfWalls(dictionary: dict, k: int):
     dictionary['numO'] = [k, k]
 
 
-initialStateOfWalls(wallDict, 3)
-
 # zeleni vertikalno, plavi horizontalno
 
 
@@ -29,17 +27,14 @@ def placeWall(dictionary: dict, player: str, color: str, newSpot: tuple):
 
 # tableSizeM i N ukloniti za sad su samo tu
 def validWall(color: str, newsSpot: tuple, tableSizeN, tableSizeM):
-    if(newsSpot[0] > tableSizeN-2):
-        return False
-    elif(newsSpot[1] > tableSizeM-2):
+
+    if (newsSpot[0] > tableSizeN-2) or (newsSpot[1] > tableSizeM-2):
         return False
     if(color == 'z'):
         for x in wallDict['V']:
-            if(x == newsSpot):
-                return False
-            if(x[1] == newsSpot[1] and x[0] == newsSpot[0]+1):
-                return False
-            if(x[1] == newsSpot[1] and x[0] == newsSpot[0] - 1):
+            if ((x == newsSpot) or
+                (x[1] == newsSpot[1] and x[0] == newsSpot[0]+1) or
+                    (x[1] == newsSpot[1] and x[0] == newsSpot[0] - 1)):
                 return False
         for x in wallDict['H']:
             if(newsSpot[0]+1 == x[0] and newsSpot[1]-1 == x[1]):
@@ -48,20 +43,12 @@ def validWall(color: str, newsSpot: tuple, tableSizeN, tableSizeM):
         return True
     if(color == 'p'):
         for x in wallDict['H']:
-            if(x == newsSpot):
-                return False
-            if(x[0] == newsSpot[0] and x[1] == newsSpot[1]+1):
-                return False
-            if(x[0] == newsSpot[0] and x[1] == newsSpot[1]-1):
+            if ((x == newsSpot) or
+                (x[0] == newsSpot[0] and x[1] == newsSpot[1]+1) or
+                    (x[0] == newsSpot[0] and x[1] == newsSpot[1]-1)):
                 return False
         for x in wallDict['V']:
             if(newsSpot[0]-1 == x[0] and newsSpot[1]+1 == x[1]):
                 return False
         print("TRUE")
         return True
-
-
-print(wallDict['V'])
-print(wallDict['H'])
-#validWall('z', (1, 3), 10, 10)
-validWall('p', (3, 1), 10, 10)

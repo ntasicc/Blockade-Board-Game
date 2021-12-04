@@ -1,31 +1,24 @@
-from Pawns import initialStateOfPawns, movePawn, pawnsDict
+from Pawns import pawnsDict, initialStateOfPawns
 from Walls import wallDict
 
-
-pawnsDict = {
-    'X': [],
-    'O': [],
-}
-
-initialStateOfPawns(pawnsDict, (2, 2), (5, 2), (3, 5), (5, 5))
 
 pozicije = list()
 tabla = list()
 
 
-def DrawStart(pawnsPosition: pawnsDict, tableSizeN: int, tableSizeM: int):
+def DrawStart(pawnsPosition: dict, tableSizeN: int, tableSizeM: int):
     # Ovo se poziva samo za prvo iscrtavanje
     StartingBoardState(tableSizeN, tableSizeM)
-    UpdatePawns(pawnsPosition)
+    DrawPawns(pawnsPosition)
     StartingBoard(tableSizeN, tableSizeM)
-    AddWalls()
+    DrawWalls()
     DrawTable()
 
 
-def DrawMove(pawnsPosition: pawnsDict, tableSizeN: int, tableSizeM: int):
+def DrawMove(pawnsPosition: dict, color: str, position: tuple):
     # Ovo se poziva za svaki potez
-    UpdatePawns(pawnsPosition)
-    AddWalls()
+    DrawPawns(pawnsPosition)
+    AddWall(color, position)
     DrawTable()
 
 
@@ -38,7 +31,7 @@ def StartingBoardState(tableSizeN: int, tableSizeM: int):
         pozicije.append(red)
 
 
-def UpdatePawns(pawnsPosition: pawnsDict):
+def DrawPawns(pawnsPosition: dict):
     # Dodaju se igraci - ovo se poziva pri svakom pomeranju pesaka
     pozicije[pawnsPosition['X'][0][1] - 1][pawnsPosition['X'][0][0] - 1] = 'X'
     pozicije[pawnsPosition['X'][1][1] - 1][pawnsPosition['X'][1][0] - 1] = 'X'
@@ -46,43 +39,59 @@ def UpdatePawns(pawnsPosition: pawnsDict):
     pozicije[pawnsPosition['O'][1][1] - 1][pawnsPosition['O'][1][0] - 1] = 'O'
 
 
-def ValidatePawnMove(player: str, pawn: int, newSpot: tuple):
-    if (newSpot[1] > len(pozicije)):
-        return False
-    elif (newSpot[0] > len(pozicije[0])):
-        return False
+# Ovo postoji i na dnu ValidatePawns, ako dole ostane ovde treba da se obrise
+def UpdatePawns(pawnsPosition: dict, player: str, pawn: int, newSpot: tuple):
+    newX = newSpot[0] * 2 - 1
+    newY = newSpot[1] * 2 - 1
+    oldSpot = pawnsPosition[player][pawn - 1]
+
+    oldX = oldSpot[0] * 2 - 1
+    oldY = oldSpot[1] * 2 - 1
+
+    # Brise se sa stare pozicije i unosi na novu
+    # NE MENJA POZICIJE U PAWNS DICT!!!!
+    tabla[oldX][oldY] = " "
+    tabla[newX][newY] = player
+
+    pozicije[oldSpot[0] - 1][oldSpot[1] - 1] = " "
+    pozicije[newSpot[0] - 1][newSpot[1] - 1] = player
+
+
+def ValidatePawnMove(pawnsPosition: dict, player: str, pawn: int, newSpot: tuple):
 
     # new_spot je nova pozicija u matrici sa zidovima, a newSpot je samo u matrici stanja
     newX = newSpot[0] * 2 - 1
     newY = newSpot[1] * 2 - 1
     # oldSpot je stara pozicija u matrici stanja
-    oldSpot = pawnsDict[player][pawn - 1]
-    # old_spot je stara pozicija u matrici sa zidovima
+    oldSpot = pawnsPosition[player][pawn - 1]
+
     oldX = oldSpot[0] * 2 - 1
     oldY = oldSpot[1] * 2 - 1
 
+    # Proverava da li je nova pozicija van granica table
+    if (newSpot[1] > len(pozicije)):
+        return False
+    elif (newSpot[0] > len(pozicije[0])):
+        return False
     # Gore
     if(newSpot[0] < oldSpot[0] and newSpot[1] == oldSpot[1]):
         if(tabla[newX+1][newY] == '===' or tabla[newX+3][newY] == '==='):
             return False
-
     # Dole
-    if(newSpot[0] > oldSpot[0] and newSpot[1] == oldSpot[1]):
+    elif(newSpot[0] > oldSpot[0] and newSpot[1] == oldSpot[1]):
         if(tabla[newX-1][newY] == '===' or tabla[newX-3][newY] == '==='):
             return False
-
     # Levo
-    if(newSpot[0] == oldSpot[0] and newSpot[1] < oldSpot[1]):
+    elif(newSpot[0] == oldSpot[0] and newSpot[1] < oldSpot[1]):
         if(tabla[newX][newY+1] == ' ||' or tabla[newX][newY+3] == ' ||'):
             return False
-
     # Desno
-    if(newSpot[0] == oldSpot[0] and newSpot[1] > oldSpot[1]):
+    elif(newSpot[0] == oldSpot[0] and newSpot[1] > oldSpot[1]):
         if(tabla[newX][newY-1] == ' ||' or tabla[newX][newY-3] == ' ||'):
             return False
 
     # Dijagonala gore levo
-    if newSpot[0] == oldSpot[0] - 1 and newSpot[1] == oldSpot[1] - 1:
+    elif newSpot[0] == oldSpot[0] - 1 and newSpot[1] == oldSpot[1] - 1:
         if ((tabla[newX][newY + 1] == ' ||' and tabla[newX + 2][newY + 1] == ' ||') or
             (tabla[newX + 1][newY] == '===' and tabla[newX + 1][newY + 2] == '===') or
             (tabla[newX][newY + 1] == ' ||' and tabla[newX + 1][newY] == '===') or
@@ -109,6 +118,15 @@ def ValidatePawnMove(player: str, pawn: int, newSpot: tuple):
             (tabla[newX][newY + 1] == ' ||' and tabla[newX - 1][newY] == '===') or
                 (tabla[newX - 2][newY + 1] == ' ||' and tabla[newX - 1][newY + 2] == '===')):
             return False
+
+    # Brise se sa stare pozicije i unosi na novu
+    # NE MENJA POZICIJE U PAWNS DICT!!!!
+    tabla[oldX][oldY] = " "
+    tabla[newX][newY] = player
+
+    pozicije[oldSpot[0] - 1][oldSpot[1] - 1] = " "
+    pozicije[newSpot[0] - 1][newSpot[1] - 1] = player
+
     return True
     #movePawn(pawnsDict, player, pawn, newSpot)
 
@@ -134,7 +152,7 @@ def StartingBoard(tableSizeN: int, tableSizeM: int):
         tabla.append(red)
 
 
-def AddWalls():
+def DrawWalls():
     # Dodavanje zidova u tablu koja se iscrtava
     for i in range(0, len(list(wallDict['H']))):
         tabla[(wallDict['H'][i][0] + 1) *
@@ -149,6 +167,13 @@ def AddWalls():
               3][(wallDict['V'][i][1] + 1) * 2] = " ||"
 
 
+def AddWall(color: str, position: tuple):
+    if color == 'p':
+        tabla[(position[0] + 1) * 2][position[1] * 2 + 1] = "==="
+    else:
+        tabla[position[0] * 2 + 1][(position[1] + 1) * 2] = " ||"
+
+
 def DrawTable():
     # Iscrtava matricu table, treba da se pozove nakon svakog dodavanja zida (AddWalls)
     for i in range(0, len(tabla)):
@@ -157,5 +182,8 @@ def DrawTable():
         print('\n')
 
 
-DrawStart(pawnsDict, 8, 10)
-print(ValidatePawnMove('X', 1, (1, 3)))
+initialStateOfPawns(pawnsDict, (1, 1), (2, 2), (3, 3), (4, 4))
+DrawStart(pawnsDict, 6, 8)
+
+ValidatePawnMove(pawnsDict, "X", 2, (1, 3))
+DrawTable()

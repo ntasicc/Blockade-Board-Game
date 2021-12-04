@@ -9,11 +9,5 @@ def initialStateOfPawns(dictionary: dict, X1: tuple, X2: tuple, O1: tuple, O2: t
     dictionary['O'] = [O1, O2]
 
 
-initialStateOfPawns(pawnsDict, (1, 2), (3, 4), (9, 10), (11, 11))
-
-
 def movePawn(dictionary: dict, player: str, pawn: int, newSpot: tuple):
     dictionary['X' if player == 'X' else 'O'][0 if pawn == 1 else 1] = newSpot
-
-
-movePawn(pawnsDict, 'O', 2, (1, 4))
