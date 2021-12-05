@@ -17,7 +17,18 @@ def placeWall(dictionary: dict, player: str, color: str, newSpot: tuple):
                'X' else 'numO'][0 if color == 'z' else 1] -= 1
 
 
+def numOfWalls(dictionary: dict, player: str, color: str):
+    if color == "p":
+        if wallDict["num" + player][1] == 0:
+            return False
+    elif color == "z":
+        if wallDict["num" + player][0] == 0:
+            return False
+    return True
+
 # tableSizeM i N ukloniti za sad su samo tu
+
+
 def validWall(player: str, color: str, newsSpot: tuple, tableSizeN, tableSizeM):
     if color == "p":
         if wallDict["num" + player][1] == 0:

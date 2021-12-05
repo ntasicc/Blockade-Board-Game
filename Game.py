@@ -1,8 +1,6 @@
-from Pawns import initialStateOfPawns, pawnsDict
+from Pawns import initialStateOfPawns, movePawn, pawnsDict
 from DrawBoard import DrawStart, DrawMove, ValidatePawnMove, DrawPawnMove
-from Walls import validWall
-
-initialStateOfPawns(pawnsDict, (1, 2), (3, 4), (9, 10), (11, 11))
+from Walls import placeWall, validWall, wallDict, numOfWalls, initialStateOfWalls
 
 
 class Game:
@@ -31,12 +29,12 @@ class Game:
         for x in pawnsDict['X']:
             if(x == self.initO1 or x == self.initO2):
                 print("X won the game")
-                return
+                return True
 
         for o in pawnsDict['O']:
             if(o == self.initX1 or o == self.initX2):
                 print("O won the game")
-                return
+                return True
 
 
 # OVDE JE KRAJ KLASE ZA SAD
@@ -44,7 +42,7 @@ firstPlay = input(
     "Uneti True ukoliko prvo igra igrac, pritisnutu Enter ukoliko igra prvo PC: ")
 n, m = [int(x) for x in input(
     "Unesite N x M dimenzije table, odvojiti razlommkom: ").split()]
-zidovi = input("Unesite broj zidova: ")
+zidovi = int(input("Unesite broj zidova: "))
 initxX1, inityX1 = [int(x) for x in input(
     "Unesite x i y koordinate od X1, odvojiti razlommkom: ").split()]
 initxX2, inityX2 = [int(x) for x in input(
@@ -57,7 +55,46 @@ initxO2, inityO2 = [int(x) for x in input(
 
 Game1 = Game(bool(firstPlay), n, m, zidovi, (initxX1, inityX1),
              (initxX2, inityX2), (initxO1, inityO1), (initxO2, inityO2))
-print(Game1.WhoPlayFirst)
 
-Game.IsItGameOver(Game1)
-# prvo ispisuje pawnDict zato sto u Pawns.py je pozvana funkcija initialState.. i print isto kao kod JS fazon
+initialStateOfWalls(wallDict, zidovi)
+initialStateOfPawns(pawnsDict, (initxX1, inityX1),
+                    (initxX2, inityX2), (initxO1, inityO1), (initxO2, inityO2))
+DrawStart(pawnsDict, Game1.n, Game1.m)
+
+while True:
+    if Game1.whoseTurnIs == True:
+        igrac1 = "X"
+    else:
+        igrac1 = "O"
+
+    Game1.whoseTurnIs = not Game1.whoseTurnIs
+
+    print("Trenutno je na potezu " + igrac1)
+
+    brojPesaka = int(input("Pesak 1 ili 2"))
+
+    vrsta, kolona = [int(x) for x in input(
+        "Unesite x i y koordinate zeljenog stanja, razdvojiti razmakom ").split()]
+
+    bojaZida = input("p za horizontalni, z za vertikalni")
+
+    if(numOfWalls(wallDict, igrac1, bojaZida)):
+
+        vrstaZid, kolonaZid = [int(x) for x in input(
+            "Unesite x i y koordinate zida, razdvojiti razmakom ").split()]
+
+        if ValidatePawnMove(pawnsDict, igrac1, brojPesaka, (vrsta, kolona)) and validWall(igrac1, bojaZida, (vrstaZid, kolonaZid), Game1.n, Game1.m):
+
+            movePawn(pawnsDict, igrac1, brojPesaka, (vrsta, kolona))
+            print(pawnsDict)
+
+            placeWall(wallDict, igrac1, bojaZida, (vrstaZid, kolonaZid))
+            DrawMove(pawnsDict, bojaZida, (vrstaZid, kolonaZid),
+                     igrac1, brojPesaka, (vrsta, kolona))
+    else:
+        if ValidatePawnMove(pawnsDict, igrac1, brojPesaka, (vrsta, kolona)):
+            movePawn(pawnsDict, igrac1, brojPesaka, (vrsta, kolona))
+            DrawPawnMove(pawnsDict, igrac1, brojPesaka, (vrsta, kolona))
+
+    if Game1.IsItGameOver():
+        break
