@@ -15,10 +15,16 @@ def DrawStart(pawnsPosition: dict, tableSizeN: int, tableSizeM: int):
     DrawTable()
 
 
-def DrawMove(pawnsPosition: dict, color: str, position: tuple):
+def DrawMove(pawnsPosition: dict, color: str, position: tuple, player: str, pawn: int, newSpot: tuple):
     # Ovo se poziva za svaki potez
-    DrawPawns(pawnsPosition)
+    UpdatePawn(pawnsPosition, player, pawn, newSpot)
     AddWall(color, position)
+    DrawTable()
+
+
+def DrawPawnMove(pawnsPosition: dict, player: str, pawn: int, newSpot: tuple):
+    # Ovo se poziva za svaki potez
+    UpdatePawn(pawnsPosition, player, pawn, newSpot)
     DrawTable()
 
 
@@ -40,7 +46,7 @@ def DrawPawns(pawnsPosition: dict):
 
 
 # Ovo postoji i na dnu ValidatePawns, ako dole ostane ovde treba da se obrise
-def UpdatePawns(pawnsPosition: dict, player: str, pawn: int, newSpot: tuple):
+def UpdatePawn(pawnsPosition: dict, player: str, pawn: int, newSpot: tuple):
     newX = newSpot[0] * 2 - 1
     newY = newSpot[1] * 2 - 1
     oldSpot = pawnsPosition[player][pawn - 1]
@@ -119,14 +125,6 @@ def ValidatePawnMove(pawnsPosition: dict, player: str, pawn: int, newSpot: tuple
                 (tabla[newX - 2][newY + 1] == ' ||' and tabla[newX - 1][newY + 2] == '===')):
             return False
 
-    # Brise se sa stare pozicije i unosi na novu
-    # NE MENJA POZICIJE U PAWNS DICT!!!!
-    tabla[oldX][oldY] = " "
-    tabla[newX][newY] = player
-
-    pozicije[oldSpot[0] - 1][oldSpot[1] - 1] = " "
-    pozicije[newSpot[0] - 1][newSpot[1] - 1] = player
-
     return True
     #movePawn(pawnsDict, player, pawn, newSpot)
 
@@ -170,8 +168,10 @@ def DrawWalls():
 def AddWall(color: str, position: tuple):
     if color == 'p':
         tabla[(position[0] + 1) * 2][position[1] * 2 + 1] = "==="
+        tabla[(position[0] + 1) * 2][position[1] * 2 + 3] = "==="
     else:
         tabla[position[0] * 2 + 1][(position[1] + 1) * 2] = " ||"
+        tabla[position[0] * 2 + 3][(position[1] + 1) * 2] = " ||"
 
 
 def DrawTable():
@@ -180,10 +180,3 @@ def DrawTable():
         for j in range(0, len(tabla[i])):
             print(tabla[i][j], end=" ")
         print('\n')
-
-
-initialStateOfPawns(pawnsDict, (1, 1), (2, 2), (3, 3), (4, 4))
-DrawStart(pawnsDict, 6, 8)
-
-ValidatePawnMove(pawnsDict, "X", 2, (1, 3))
-DrawTable()

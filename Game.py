@@ -1,5 +1,6 @@
 from Pawns import initialStateOfPawns, pawnsDict
-
+from DrawBoard import DrawStart, DrawMove, ValidatePawnMove, DrawPawnMove
+from Walls import validWall
 
 initialStateOfPawns(pawnsDict, (1, 2), (3, 4), (9, 10), (11, 11))
 
