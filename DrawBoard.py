@@ -167,11 +167,11 @@ def DrawWalls():
 
 def AddWall(color: str, position: tuple):
     if color == 'p':
-        tabla[(position[0] + 1) * 2][position[1] * 2 + 1] = "==="
-        tabla[(position[0] + 1) * 2][position[1] * 2 + 3] = "==="
+        tabla[position[0] * 2][position[1] * 2 - 1] = "==="
+        tabla[position[0] * 2][position[1] * 2 + 1] = "==="
     else:
-        tabla[position[0] * 2 + 1][(position[1] + 1) * 2] = " ||"
-        tabla[position[0] * 2 + 3][(position[1] + 1) * 2] = " ||"
+        tabla[position[0] * 2 - 1][position[1] * 2] = " ||"
+        tabla[position[0] * 2 + 1][position[1] * 2] = " ||"
 
 
 def DrawTable():

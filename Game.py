@@ -43,17 +43,17 @@ firstPlay = input(
 n, m = [int(x) for x in input(
     "Unesite N x M dimenzije table, odvojiti razmakom: ").split()]
 zidovi = int(input("Unesite broj zidova: "))
-initxX1, inityX1 = [int(x) for x in input(
+inityX1, initxX1 = [int(x) for x in input(
     "Unesite x i y koordinate od X1, odvojiti razmakom: ").split()]
-initxX2, inityX2 = [int(x) for x in input(
+inityX2, initxX2 = [int(x) for x in input(
     "Unesite x i y koordinate od X2, odvojiti razmakom: ").split()]
-initxO1, inityO1 = [int(x) for x in input(
+inityO1, initxO1 = [int(x) for x in input(
     "Unesite x i y koordinate od Y1, odvojiti razmakom: ").split()]
-initxO2, inityO2 = [int(x) for x in input(
+inityO2, initxO2 = [int(x) for x in input(
     "Unesite x i y koordinate od Y2, odvojiti razmakom: ").split()]
 
 
-Game1 = Game(bool(firstPlay), n, m, zidovi, (initxX1, inityX1),
+Game1 = Game(bool(firstPlay), m, n, zidovi, (initxX1, inityX1),
              (initxX2, inityX2), (initxO1, inityO1), (initxO2, inityO2))
 
 initialStateOfWalls(wallDict, zidovi)
@@ -78,7 +78,7 @@ while True:
 
     brojPesaka = int(input("Pesak 1 ili 2: "))
 
-    kolona, vrsta = [int(x) for x in input(
+    vrsta, kolona = [int(x) for x in input(
         "Unesite x i y koordinate zeljenog stanja, razdvojiti razmakom: ").split()]
     if(numOfTurns < zidovi*4):
         bojaZida = input("p za horizontalni, z za vertikalni: ")
@@ -86,10 +86,8 @@ while True:
         if(NumOfColoredWall(wallDict, igrac1, bojaZida) == 0):
             print("Nemate vise zidova zadate boje")
             continue
-        kolonaZid, vrstaZid = [int(x) for x in input(
+        vrstaZid, kolonaZid = [int(x) for x in input(
             "Unesite x i y koordinate zida, razdvojiti razmakom: ").split()]
-        kolonaZid -= 1
-        vrstaZid -= 1
 
     if(numOfWalls(wallDict, igrac1, bojaZida)):
 
