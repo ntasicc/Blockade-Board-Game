@@ -48,7 +48,7 @@ def validWall(player: str, color: str, newsSpot: tuple, tableSizeN, tableSizeM):
                     (x[1] == newsSpot[1] and x[0] == newsSpot[0] - 1)):
                 return False
         for x in wallDict['H']:
-            if(newsSpot[0]+1 == x[0] and newsSpot[1]-1 == x[1]):
+            if(newsSpot[0] == x[0] and newsSpot[1] == x[1]):
                 return False
         return True
     if(color == 'p'):
@@ -58,6 +58,6 @@ def validWall(player: str, color: str, newsSpot: tuple, tableSizeN, tableSizeM):
                     (x[0] == newsSpot[0] and x[1] == newsSpot[1]-1)):
                 return False
         for x in wallDict['V']:
-            if(newsSpot[0]-1 == x[0] and newsSpot[1]+1 == x[1]):
+            if(newsSpot[0] == x[0] and newsSpot[1] == x[1]):
                 return False
         return True
