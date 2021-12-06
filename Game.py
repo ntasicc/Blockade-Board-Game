@@ -78,7 +78,7 @@ while True:
 
     brojPesaka = int(input("Pesak 1 ili 2: "))
 
-    vrsta, kolona = [int(x) for x in input(
+    kolona, vrsta = [int(x) for x in input(
         "Unesite x i y koordinate zeljenog stanja, razdvojiti razmakom: ").split()]
     if(numOfTurns < zidovi*4):
         bojaZida = input("p za horizontalni, z za vertikalni: ")
@@ -86,24 +86,29 @@ while True:
         if(NumOfColoredWall(wallDict, igrac1, bojaZida) == 0):
             print("Nemate vise zidova zadate boje")
             continue
-        vrstaZid, kolonaZid = [int(x) for x in input(
+        kolonaZid, vrstaZid = [int(x) for x in input(
             "Unesite x i y koordinate zida, razdvojiti razmakom: ").split()]
+        kolonaZid -= 1
+        vrstaZid -= 1
 
     if(numOfWalls(wallDict, igrac1, bojaZida)):
 
-        if ValidatePawnMove(pawnsDict, igrac1, brojPesaka, (vrsta, kolona)) and validWall(igrac1, bojaZida, (vrstaZid, kolonaZid), Game1.n, Game1.m):
+        if (ValidatePawnMove(pawnsDict, igrac1, brojPesaka, (vrsta, kolona)) and
+                validWall(igrac1, bojaZida, (vrstaZid, kolonaZid), Game1.n, Game1.m)):
+
             Game1.whoseTurnIs = not Game1.whoseTurnIs
             WrongParameters = False
             numOfTurns += 1
+
+            DrawMove(pawnsDict, bojaZida, (vrstaZid, kolonaZid),
+                     igrac1, brojPesaka, (vrsta, kolona))
             movePawn(pawnsDict, igrac1, brojPesaka, (vrsta, kolona))
 
             placeWall(wallDict, igrac1, bojaZida, (vrstaZid, kolonaZid))
-            DrawMove(pawnsDict, bojaZida, (vrstaZid, kolonaZid),
-                     igrac1, brojPesaka, (vrsta, kolona))
     else:
         if ValidatePawnMove(pawnsDict, igrac1, brojPesaka, (vrsta, kolona)):
-            movePawn(pawnsDict, igrac1, brojPesaka, (vrsta, kolona))
             DrawPawnMove(pawnsDict, igrac1, brojPesaka, (vrsta, kolona))
+            movePawn(pawnsDict, igrac1, brojPesaka, (vrsta, kolona))
             Game1.whoseTurnIs = not Game1.whoseTurnIs
             WrongParameters = False
             numOfTurns += 1
