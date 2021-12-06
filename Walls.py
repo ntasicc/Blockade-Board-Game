@@ -1,5 +1,5 @@
 wallDict = {
-    'V': [(1, 2)],
+    'V': [],
     'H': [],
     'numX': [],
     'numO': []
@@ -17,6 +17,10 @@ def placeWall(dictionary: dict, player: str, color: str, newSpot: tuple):
                'X' else 'numO'][0 if color == 'z' else 1] -= 1
 
 
+def NumOfColoredWall(dictionary: dict, player: str, color: str):
+    return dictionary['num'+player][0 if color == 'z' else 1]
+
+
 def numOfWalls(dictionary: dict, player: str, color: str):
     if color == "p":
         if wallDict["num" + player][1] == 0:
@@ -25,8 +29,6 @@ def numOfWalls(dictionary: dict, player: str, color: str):
         if wallDict["num" + player][0] == 0:
             return False
     return True
-
-# tableSizeM i N ukloniti za sad su samo tu
 
 
 def validWall(player: str, color: str, newsSpot: tuple, tableSizeN, tableSizeM):
@@ -48,7 +50,6 @@ def validWall(player: str, color: str, newsSpot: tuple, tableSizeN, tableSizeM):
         for x in wallDict['H']:
             if(newsSpot[0]+1 == x[0] and newsSpot[1]-1 == x[1]):
                 return False
-        print("TRUE")
         return True
     if(color == 'p'):
         for x in wallDict['H']:
@@ -59,5 +60,4 @@ def validWall(player: str, color: str, newsSpot: tuple, tableSizeN, tableSizeM):
         for x in wallDict['V']:
             if(newsSpot[0]-1 == x[0] and newsSpot[1]+1 == x[1]):
                 return False
-        print("TRUE")
         return True
