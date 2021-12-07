@@ -39,10 +39,10 @@ def StartingBoardState(tableSizeN: int, tableSizeM: int):
 
 def DrawPawns(pawnsPosition: dict):
     # Dodaju se igraci - ovo se poziva pri svakom pomeranju pesaka
-    pozicije[pawnsPosition['X'][0][1] - 1][pawnsPosition['X'][0][0] - 1] = 'X'
-    pozicije[pawnsPosition['X'][1][1] - 1][pawnsPosition['X'][1][0] - 1] = 'X'
-    pozicije[pawnsPosition['O'][0][1] - 1][pawnsPosition['O'][0][0] - 1] = 'O'
-    pozicije[pawnsPosition['O'][1][1] - 1][pawnsPosition['O'][1][0] - 1] = 'O'
+    pozicije[pawnsPosition['X'][0][0] - 1][pawnsPosition['X'][0][1] - 1] = 'X'
+    pozicije[pawnsPosition['X'][1][0] - 1][pawnsPosition['X'][1][1] - 1] = 'X'
+    pozicije[pawnsPosition['O'][0][0] - 1][pawnsPosition['O'][0][1] - 1] = 'O'
+    pozicije[pawnsPosition['O'][1][0] - 1][pawnsPosition['O'][1][1] - 1] = 'O'
 
 
 # Ovo postoji i na dnu ValidatePawns, ako dole ostane ovde treba da se obrise
