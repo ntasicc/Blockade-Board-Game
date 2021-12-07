@@ -77,8 +77,10 @@ def ValidatePawnMove(pawnsPosition: dict, player: str, pawn: int, newSpot: tuple
     # Proverava da li je pomeranje ucinjeno za dva mesta ili za jedno mesto ka cilju
     goal = pawnsPosition["start" + 'O' if player == 'X' else 'X']
     distance = abs(oldSpot[1]-newSpot[0])+abs(oldSpot[0]-newSpot[1])
-    if(distance != 2):
-        return False
+    if(distance == 1 and goal[0] != newSpot and goal[1] != newSpot):
+        if(distance != 2):
+            return False
+
     # Proverava da li je nova pozicija van granica table
     if (newSpot[1] > len(pozicije)):
         return False
@@ -87,7 +89,7 @@ def ValidatePawnMove(pawnsPosition: dict, player: str, pawn: int, newSpot: tuple
 
     # Gore
     if(newSpot[0] < oldSpot[0] and newSpot[1] == oldSpot[1]):
-        if(tabla[newX+1][newY] == '===' or tabla[newX+3][newY] == '==='):
+        if((tabla[newX+1][newY] == '===') if distance == 2 else False or tabla[newX+3][newY] == '==='):
             return False
         elif ((tabla[newX][newY] != " ") and (tabla[newX+2][newY] == " ")):
             return (newSpot[0]-1, newSpot[1])
@@ -95,7 +97,7 @@ def ValidatePawnMove(pawnsPosition: dict, player: str, pawn: int, newSpot: tuple
             return newSpot
     # Dole
     elif(newSpot[0] > oldSpot[0] and newSpot[1] == oldSpot[1]):
-        if(tabla[newX-1][newY] == '===' or tabla[newX-3][newY] == '==='):
+        if((tabla[newX-1][newY] == '===') if distance == 2 else False or tabla[newX-3][newY] == '==='):
             return False
         elif ((tabla[newX][newY] != " ") and (tabla[newX-2][newY] == " ")):
             return (newSpot[0]+1, newSpot[1])
@@ -103,7 +105,7 @@ def ValidatePawnMove(pawnsPosition: dict, player: str, pawn: int, newSpot: tuple
             return newSpot
     # Levo
     elif(newSpot[0] == oldSpot[0] and newSpot[1] < oldSpot[1]):
-        if(tabla[newX][newY+1] == ' ||' or tabla[newX][newY+3] == ' ||'):
+        if((tabla[newX][newY+1] == ' ||') if distance == 2 else False or tabla[newX][newY+3] == ' ||'):
             return False
         elif ((tabla[newX][newY] != " ") and (tabla[newX][newY+2] == " ")):
             return (newSpot[0], newSpot[1]+1)
@@ -112,7 +114,7 @@ def ValidatePawnMove(pawnsPosition: dict, player: str, pawn: int, newSpot: tuple
 
     # Desno
     elif(newSpot[0] == oldSpot[0] and newSpot[1] > oldSpot[1]):
-        if(tabla[newX][newY-1] == ' ||' or tabla[newX][newY-3] == ' ||'):
+        if((tabla[newX][newY-1] == ' ||') if distance == 2 else False or tabla[newX][newY-3] == ' ||'):
             return False
         elif ((tabla[newX][newY] != " ") and (tabla[newX][newY-2] == " ")):
             return (newSpot[0], newSpot[1]-1)
