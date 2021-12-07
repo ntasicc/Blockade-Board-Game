@@ -95,6 +95,7 @@ def ValidatePawnMove(pawnsPosition: dict, player: str, pawn: int, newSpot: tuple
             return (newSpot[0]-1, newSpot[1])
         else:
             return newSpot
+
     # Dole
     elif(newSpot[0] > oldSpot[0] and newSpot[1] == oldSpot[1]):
         if((tabla[newX-1][newY] == '===') if distance == 2 else False or tabla[newX-3][newY] == '==='):
@@ -103,6 +104,7 @@ def ValidatePawnMove(pawnsPosition: dict, player: str, pawn: int, newSpot: tuple
             return (newSpot[0]+1, newSpot[1])
         else:
             return newSpot
+
     # Levo
     elif(newSpot[0] == oldSpot[0] and newSpot[1] < oldSpot[1]):
         if((tabla[newX][newY+1] == ' ||') if distance == 2 else False or tabla[newX][newY+3] == ' ||'):
