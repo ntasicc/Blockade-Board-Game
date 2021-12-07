@@ -53,8 +53,8 @@ inityO2, initxO2 = [int(x) for x in input(
     "Unesite x i y koordinate od Y2, odvojiti razmakom: ").split()]
 
 
-Game1 = Game(bool(firstPlay), m, n, zidovi, (initxX1, inityX1),
-             (initxX2, inityX2), (initxO1, inityO1), (initxO2, inityO2))
+Game1 = Game(bool(firstPlay), m, n, zidovi, (inityX1, initxX1),
+             (inityX2, initxX2), (inityO1, initxO1), (inityO2, initxO2))
 
 initialStateOfWalls(wallDict, zidovi)
 initialStateOfPawns(pawnsDict, (initxX1, inityX1),
