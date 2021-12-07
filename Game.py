@@ -89,24 +89,24 @@ while True:
         vrstaZid, kolonaZid = [int(x) for x in input(
             "Unesite x i y koordinate zida, razdvojiti razmakom: ").split()]
 
+    spotAfterValidation = ValidatePawnMove(
+        pawnsDict, igrac1, brojPesaka, (vrsta, kolona))
+    print(spotAfterValidation)
     if(numOfWalls(wallDict, igrac1, bojaZida)):
-
-        if (ValidatePawnMove(pawnsDict, igrac1, brojPesaka, (vrsta, kolona)) and
-                validWall(igrac1, bojaZida, (vrstaZid, kolonaZid), Game1.n, Game1.m)):
-
+        if (spotAfterValidation != False and validWall(igrac1, bojaZida, (vrstaZid, kolonaZid), Game1.n, Game1.m)):
             Game1.whoseTurnIs = not Game1.whoseTurnIs
             WrongParameters = False
             numOfTurns += 1
 
             DrawMove(pawnsDict, bojaZida, (vrstaZid, kolonaZid),
-                     igrac1, brojPesaka, (vrsta, kolona))
-            movePawn(pawnsDict, igrac1, brojPesaka, (vrsta, kolona))
-
+                     igrac1, brojPesaka, spotAfterValidation)
+            movePawn(pawnsDict, igrac1, brojPesaka, spotAfterValidation)
             placeWall(wallDict, igrac1, bojaZida, (vrstaZid, kolonaZid))
     else:
-        if ValidatePawnMove(pawnsDict, igrac1, brojPesaka, (vrsta, kolona)):
-            DrawPawnMove(pawnsDict, igrac1, brojPesaka, (vrsta, kolona))
-            movePawn(pawnsDict, igrac1, brojPesaka, (vrsta, kolona))
+
+        if spotAfterValidation != False:
+            DrawPawnMove(pawnsDict, igrac1, brojPesaka, spotAfterValidation)
+            movePawn(pawnsDict, igrac1, brojPesaka, spotAfterValidation)
             Game1.whoseTurnIs = not Game1.whoseTurnIs
             WrongParameters = False
             numOfTurns += 1
