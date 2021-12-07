@@ -74,27 +74,54 @@ def ValidatePawnMove(pawnsPosition: dict, player: str, pawn: int, newSpot: tuple
     oldX = oldSpot[0] * 2 - 1
     oldY = oldSpot[1] * 2 - 1
 
+    # Proverava da li je pomeranje ucinjeno za dva mesta ili za jedno mesto ka cilju
+    goal = pawnsPosition["start" + 'O' if player == 'X' else 'X']
+    distance = abs(oldSpot[1]-newSpot[0])+abs(oldSpot[0]-newSpot[1])
+    if(distance != 2):
+        return False
     # Proverava da li je nova pozicija van granica table
     if (newSpot[1] > len(pozicije)):
         return False
     elif (newSpot[0] > len(pozicije[0])):
         return False
+
     # Gore
     if(newSpot[0] < oldSpot[0] and newSpot[1] == oldSpot[1]):
         if(tabla[newX+1][newY] == '===' or tabla[newX+3][newY] == '==='):
             return False
+        elif ((tabla[newX][newY] != " ") and (tabla[newX+2][newY] == " ")):
+            return (newSpot[0]-1, newSpot[1])
+        else:
+            return newSpot
     # Dole
     elif(newSpot[0] > oldSpot[0] and newSpot[1] == oldSpot[1]):
         if(tabla[newX-1][newY] == '===' or tabla[newX-3][newY] == '==='):
             return False
+        elif ((tabla[newX][newY] != " ") and (tabla[newX-2][newY] == " ")):
+            return (newSpot[0]+1, newSpot[1])
+        else:
+            return newSpot
     # Levo
     elif(newSpot[0] == oldSpot[0] and newSpot[1] < oldSpot[1]):
         if(tabla[newX][newY+1] == ' ||' or tabla[newX][newY+3] == ' ||'):
             return False
+        elif ((tabla[newX][newY] != " ") and (tabla[newX][newY+2] == " ")):
+            return (newSpot[0], newSpot[1]+1)
+        else:
+            return newSpot
+
     # Desno
     elif(newSpot[0] == oldSpot[0] and newSpot[1] > oldSpot[1]):
         if(tabla[newX][newY-1] == ' ||' or tabla[newX][newY-3] == ' ||'):
             return False
+        elif ((tabla[newX][newY] != " ") and (tabla[newX][newY-2] == " ")):
+            return (newSpot[0], newSpot[1]-1)
+        else:
+            return newSpot
+
+    # Zauzete dijagonale
+    elif (tabla[newX][newY] != " "):
+        return False
 
     # Dijagonala gore levo
     elif newSpot[0] == oldSpot[0] - 1 and newSpot[1] == oldSpot[1] - 1:
@@ -125,8 +152,12 @@ def ValidatePawnMove(pawnsPosition: dict, player: str, pawn: int, newSpot: tuple
                 (tabla[newX - 2][newY + 1] == ' ||' and tabla[newX - 1][newY + 2] == '===')):
             return False
 
-    return True
-    #movePawn(pawnsDict, player, pawn, newSpot)
+    return newSpot
+
+
+initialStateOfPawns(pawnsDict, (1, 1),
+                    (2, 1), (4, 41), (5, 4))
+print(ValidatePawnMove(pawnsDict, 'X', 1, (1, 3)))
 
 
 def StartingBoard(tableSizeN: int, tableSizeM: int):
