@@ -216,8 +216,33 @@ def AddWall(color: str, position: tuple):
 
 
 def DrawTable():
-    # Iscrtava matricu table, treba da se pozove nakon svakog dodavanja zida (AddWalls)
+
+    # Pomocna matrica koja ce da sadrzi i indekse
+    itabla = list()
+    indeksi = list()
+    indeksi.append("")
+    for i in range(0, len(tabla[0])):
+        indeksi.append((hex((i + 1) // 2).split('x')
+                        [-1]) if (i % 2 != 0) else "   ")
+    itabla.append(indeksi)
+
     for i in range(0, len(tabla)):
+        ired = list()
+        ired.append((hex((i + 1) // 2).split('x')
+                    [-1]) if (i % 2 != 0) else " ")
         for j in range(0, len(tabla[i])):
-            print(tabla[i][j], end=" ")
+            ired.append(tabla[i][j])
+        ired.append((hex((i + 1) // 2).split('x')
+                    [-1]) if (i % 2 != 0) else " ")
+        itabla.append(ired)
+    itabla.append(indeksi)
+
+    # Iscrtava matricu table, treba da se pozove nakon svakog dodavanja zida (AddWalls)
+    for i in range(0, len(itabla)):
+        for j in range(0, len(itabla[i])):
+            print(itabla[i][j], end=" ")
         print('\n')
+
+
+initialStateOfPawns(pawnsDict, (5, 5), (1, 1), (2, 2), (3, 3))
+DrawStart(pawnsDict, 10, 15)

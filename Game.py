@@ -70,7 +70,7 @@ while True:
     else:
         igrac1 = "O"
     if(WrongParameters):
-        print("Uneliste nevazece parametre, molimo pokusajte ponovo! ")
+        print("Uneli ste nevazece parametre, molimo pokusajte ponovo! ")
 
     WrongParameters = True
 
