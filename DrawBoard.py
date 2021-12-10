@@ -220,10 +220,11 @@ def DrawTable():
     # Pomocna matrica koja ce da sadrzi i indekse
     itabla = list()
     indeksi = list()
-    indeksi.append("")
+    indeksi.append(" ")
     for i in range(0, len(tabla[0])):
-        indeksi.append((hex((i + 1) // 2).split('x')
-                        [-1]) if (i % 2 != 0) else "   ")
+        hex_index = hex((i + 1) // 2).split('x')[-1]
+        indeksi.append((" " + hex_index + (" " if len(hex_index)
+                       == 1 else "")) if (i % 2 != 0) else " ")
     itabla.append(indeksi)
 
     for i in range(0, len(tabla)):
@@ -242,7 +243,3 @@ def DrawTable():
         for j in range(0, len(itabla[i])):
             print(itabla[i][j], end=" ")
         print('\n')
-
-
-initialStateOfPawns(pawnsDict, (5, 5), (1, 1), (2, 2), (3, 3))
-DrawStart(pawnsDict, 10, 15)
