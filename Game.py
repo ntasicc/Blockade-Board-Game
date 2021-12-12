@@ -40,8 +40,14 @@ class Game:
 # OVDE JE KRAJ KLASE ZA SAD
 firstPlay = input(
     "Uneti True ukoliko prvo igra igrac, pritisnutu Enter ukoliko igra prvo PC: ")
-n, m = [int(x) for x in input(
-    "Unesite N x M dimenzije table, odvojiti razmakom: ").split()]
+while True:
+    n, m = [int(x) for x in input(
+        "Unesite N x M dimenzije table, odvojiti razmakom: ").split()]
+    if(n >= 11 and n <= 22):
+        if(m >= 14 and m <= 28):
+            break
+    print("Uneliste nevazece parametre, minimalna velicina je 11x14 maksimalna 22x28")
+
 zidovi = int(input("Unesite broj zidova: "))
 initxX1, inityX1 = [int(x) for x in input(
     "Unesite x i y koordinate od X1, odvojiti razmakom: ").split()]
