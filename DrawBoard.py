@@ -19,7 +19,6 @@ def DrawMove(pawnsPosition: dict, color: str, position: tuple, player: str, pawn
     # Ovo se poziva za svaki potez
     UpdatePawn(pawnsPosition, player, pawn, newSpot)
     AddWall(color, position)
-    DrawTable()
 
 
 def DrawPawnMove(pawnsPosition: dict, player: str, pawn: int, newSpot: tuple):
