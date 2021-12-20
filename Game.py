@@ -1,6 +1,7 @@
 from Pawns import initialStateOfPawns, movePawn, pawnsDict
-from DrawBoard import DrawStart, DrawMove, ValidatePawnMove, DrawPawnMove
+from DrawBoard import DrawStart, DrawMove, DrawTable, ValidatePawnMove, DrawPawnMove, tabla
 from Walls import placeWall, validWall, wallDict, numOfWalls, initialStateOfWalls, NumOfColoredWall
+import copy
 
 
 class Game:
@@ -97,19 +98,35 @@ while True:
 
     spotAfterValidation = ValidatePawnMove(
         pawnsDict, igrac1, brojPesaka, (vrsta, kolona))
-    print(spotAfterValidation)
+
     if(numOfWalls(wallDict, igrac1, bojaZida)):
         if (spotAfterValidation != False and validWall(igrac1, bojaZida, (vrstaZid, kolonaZid), Game1.n, Game1.m)):
-            Game1.whoseTurnIs = not Game1.whoseTurnIs
-            WrongParameters = False
-            numOfTurns += 1
 
+            # Cuvanje starih vrednosti
+            oldPawnsDict = copy.deepcopy(pawnsDict)
+            oldWallDict = copy.deepcopy(wallDict)
+            oldTable = copy.deepcopy(tabla)
+
+            # Odigravanje poteza
             DrawMove(pawnsDict, bojaZida, (vrstaZid, kolonaZid),
                      igrac1, brojPesaka, spotAfterValidation)
             movePawn(pawnsDict, igrac1, brojPesaka, spotAfterValidation)
             placeWall(wallDict, igrac1, bojaZida, (vrstaZid, kolonaZid))
+
+            # Provera da li postoji put do cilja, ako ne postoji vraca se na stare vrednosti i potez se racuna kao nevalidan (na potezu je isti igrac)
+            if(astar(tabla, spotAfterValidation, pawnsDict['start'+('O' if igrac1 == 'X' else 'X')][0]) or astar(tabla, spotAfterValidation, pawnsDict['start'+('O' if igrac1 == 'X' else 'X')][1])):
+                Game1.whoseTurnIs = not Game1.whoseTurnIs
+                WrongParameters = False
+                numOfTurns += 1
+                DrawTable()
+            else:
+                pawnsDict = copy.deepcopy(oldPawnsDict)
+                wallDict = copy.deepcopy(oldWallDict)
+                tabla = copy.deepcopy(oldTable)
+
     else:
 
+        # Nije potrebno proveravati da li postoji put jer nema vise zidova za postavljanje
         if spotAfterValidation != False:
             DrawPawnMove(pawnsDict, igrac1, brojPesaka, spotAfterValidation)
             movePawn(pawnsDict, igrac1, brojPesaka, spotAfterValidation)
