@@ -3,6 +3,10 @@ from DrawBoard import DrawStart, DrawMove, DrawTable, ValidatePawnMove, DrawPawn
 from Walls import placeWall, validWall, wallDict, numOfWalls, initialStateOfWalls, NumOfColoredWall
 import copy
 
+saveDictWalls = {}
+saveDictPawns = {}
+saveDictTable = {}
+
 
 class Game:
     whoseTurnIs = True  # na potezu je X, posle svakog poteza menjati
@@ -38,6 +42,7 @@ class Game:
                 return True
 
 
+hashkey = 0
 # OVDE JE KRAJ KLASE ZA SAD
 firstPlay = input(
     "Uneti True ukoliko prvo igra igrac, pritisnutu Enter ukoliko igra prvo PC: ")
@@ -83,18 +88,25 @@ while True:
 
     print("Trenutno je na potezu " + igrac1+": ")
 
-    brojPesaka = int(input("Pesak 1 ili 2: "))
-
-    vrsta, kolona = [int(x) for x in input(
-        "Unesite x i y koordinate zeljenog stanja, razdvojiti razmakom: ").split()]
     if(numOfTurns < zidovi*4):
-        bojaZida = input("p za horizontalni, z za vertikalni: ")
+        moveInput = input("Uneti zeljeni potez, primer [X 2] [6 3] [z 4 9]: ")
+        koordinate = moveInput.split("] [")
+        brojPesaka = int(koordinate[0][3])
+        vrsta = int(koordinate[1][0])
+        kolona = int(koordinate[1][2])
+        bojaZida = koordinate[2][0]
+        vrstaZid = int(koordinate[2][2])
+        kolonaZid = int(koordinate[2][4])
 
         if(NumOfColoredWall(wallDict, igrac1, bojaZida) == 0):
             print("Nemate vise zidova zadate boje")
             continue
-        vrstaZid, kolonaZid = [int(x) for x in input(
-            "Unesite x i y koordinate zida, razdvojiti razmakom: ").split()]
+    else:
+        moveInput = input("Uneti zeljeni potez, primer [X 2] [6 3]: ")
+        koordinate = moveInput.split("] [")
+        brojPesaka = koordinate[0][3]
+        vrsta = koordinate[1][0]
+        kolona = koordinate[1][2]
 
     spotAfterValidation = ValidatePawnMove(
         pawnsDict, igrac1, brojPesaka, (vrsta, kolona))
@@ -119,6 +131,19 @@ while True:
                 WrongParameters = False
                 numOfTurns += 1
                 DrawTable()
+                if(bool(firstPlay) == False):
+                    if(igrac1 == "X"):
+                        saveDictWalls.update({hashkey: oldWallDict})
+                        saveDictPawns.update({hashkey: oldPawnsDict})
+                        saveDictTable.update({hashkey: oldTable})
+                        hashkey = hashkey+1
+                elif(bool(firstPlay) == True):
+                    if(igrac1 == "O"):
+                        saveDictWalls.update({hashkey: oldWallDict})
+                        saveDictPawns.update({hashkey: oldPawnsDict})
+                        saveDictTable.update({hashkey: oldTable})
+                        hashkey = hashkey+1
+
             else:
                 pawnsDict = copy.deepcopy(oldPawnsDict)
                 wallDict = copy.deepcopy(oldWallDict)
@@ -128,11 +153,28 @@ while True:
 
         # Nije potrebno proveravati da li postoji put jer nema vise zidova za postavljanje
         if spotAfterValidation != False:
+            oldPawnsDict = copy.deepcopy(pawnsDict)
+            oldWallDict = copy.deepcopy(wallDict)
+            oldTable = copy.deepcopy(tabla)
             DrawPawnMove(pawnsDict, igrac1, brojPesaka, spotAfterValidation)
             movePawn(pawnsDict, igrac1, brojPesaka, spotAfterValidation)
+            if(bool(firstPlay) == False):
+                if(igrac1 == "X"):
+                    saveDictWalls.update({hashkey: oldWallDict})
+                    saveDictPawns.update({hashkey: oldPawnsDict})
+                    saveDictTable.update({hashkey: oldTable})
+                    hashkey = hashkey+1
+            elif(bool(firstPlay) == True):
+                if(igrac1 == "O"):
+                    saveDictWalls.update({hashkey: oldWallDict})
+                    saveDictPawns.update({hashkey: oldPawnsDict})
+                    saveDictTable.update({hashkey: oldTable})
+                    hashkey = hashkey+1
+
             Game1.whoseTurnIs = not Game1.whoseTurnIs
             WrongParameters = False
             numOfTurns += 1
 
+    print(saveDictPawns)
     if Game1.IsItGameOver():
         break
