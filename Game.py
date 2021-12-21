@@ -112,13 +112,13 @@ while True:
     spotAfterValidation = ValidatePawnMove(
         pawnsDict, igrac1, brojPesaka, (vrsta, kolona))
 
+    # Cuvanje starih vrednosti
+    oldPawnsDict = copy.deepcopy(pawnsDict)
+    oldWallDict = copy.deepcopy(wallDict)
+    oldTable = copy.deepcopy(tabla)
+
     if(numOfWalls(wallDict, igrac1, bojaZida)):
         if (spotAfterValidation != False and validWall(igrac1, bojaZida, (vrstaZid, kolonaZid), Game1.n, Game1.m)):
-
-            # Cuvanje starih vrednosti
-            oldPawnsDict = copy.deepcopy(pawnsDict)
-            oldWallDict = copy.deepcopy(wallDict)
-            oldTable = copy.deepcopy(tabla)
 
             # Odigravanje poteza
             DrawMove(pawnsDict, bojaZida, (vrstaZid, kolonaZid),
@@ -127,7 +127,7 @@ while True:
             placeWall(wallDict, igrac1, bojaZida, (vrstaZid, kolonaZid))
 
             # Provera da li postoji put do cilja, ako ne postoji vraca se na stare vrednosti i potez se racuna kao nevalidan (na potezu je isti igrac)
-            if(astar(tabla, spotAfterValidation, pawnsDict['start'+('O' if igrac1 == 'X' else 'X')][0]) or astar(tabla, spotAfterValidation, pawnsDict['start'+('O' if igrac1 == 'X' else 'X')][1])):
+            if(astar(tabla, pawnsDict['X'][0], pawnsDict['startO'][0]) and astar(tabla, pawnsDict['X'][0], pawnsDict['startO'][1]) and astar(tabla, pawnsDict['X'][1], pawnsDict['startO'][0]) and astar(tabla, pawnsDict['X'][1], pawnsDict['startO'][1]) and astar(tabla, pawnsDict['O'][0], pawnsDict['startX'][0]) and astar(tabla, pawnsDict['O'][0], pawnsDict['startX'][1]) and astar(tabla, pawnsDict['O'][1], pawnsDict['startX'][0]) and astar(tabla, pawnsDict['O'][1], pawnsDict['startX'][1])):
                 Game1.whoseTurnIs = not Game1.whoseTurnIs
                 WrongParameters = False
                 numOfTurns += 1
@@ -176,6 +176,5 @@ while True:
             WrongParameters = False
             numOfTurns += 1
 
-    print(saveDictPawns)
     if Game1.IsItGameOver():
         break
