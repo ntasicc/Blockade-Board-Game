@@ -1,5 +1,5 @@
 from Pawns import initialStateOfPawns, movePawn, pawnsDict
-from DrawBoard import DrawStart, DrawMove, DrawTable, ValidatePawnMove, DrawPawnMove, tabla
+from DrawBoard import DrawStart, DrawMove, DrawTable, ValidatePawnMove, DrawPawnMove
 from Walls import placeWall, validWall, wallDict, numOfWalls, initialStateOfWalls, NumOfColoredWall
 from Pathfinding import astar
 import copy
@@ -7,6 +7,7 @@ import copy
 saveDictWalls = {}
 saveDictPawns = {}
 saveDictTable = {}
+tabla = list()
 
 
 class Game:
@@ -72,7 +73,7 @@ Game1 = Game(bool(firstPlay), n, m, zidovi, (initxX1, inityX1),
 initialStateOfWalls(wallDict, zidovi)
 initialStateOfPawns(pawnsDict, (initxX1, inityX1),
                     (initxX2, inityX2), (initxO1, inityO1), (initxO2, inityO2))
-DrawStart(pawnsDict, Game1.n, Game1.m)
+DrawStart(tabla, pawnsDict, Game1.n, Game1.m)
 
 WrongParameters = False
 numOfTurns = 0
@@ -109,8 +110,8 @@ while True:
         vrsta = koordinate[1][0]
         kolona = koordinate[1][2]
 
-    spotAfterValidation = ValidatePawnMove(
-        pawnsDict, igrac1, brojPesaka, (vrsta, kolona))
+    spotAfterValidation = ValidatePawnMove(tabla,
+                                           pawnsDict, igrac1, brojPesaka, (vrsta, kolona))
 
     # Cuvanje starih vrednosti
     oldPawnsDict = copy.deepcopy(pawnsDict)
@@ -121,7 +122,7 @@ while True:
         if (spotAfterValidation != False and validWall(igrac1, bojaZida, (vrstaZid, kolonaZid), Game1.n, Game1.m)):
 
             # Odigravanje poteza
-            DrawMove(pawnsDict, bojaZida, (vrstaZid, kolonaZid),
+            DrawMove(tabla, pawnsDict, bojaZida, (vrstaZid, kolonaZid),
                      igrac1, brojPesaka, spotAfterValidation)
             movePawn(pawnsDict, igrac1, brojPesaka, spotAfterValidation)
             placeWall(wallDict, igrac1, bojaZida, (vrstaZid, kolonaZid))
@@ -131,7 +132,7 @@ while True:
                 Game1.whoseTurnIs = not Game1.whoseTurnIs
                 WrongParameters = False
                 numOfTurns += 1
-                DrawTable()
+                DrawTable(tabla)
                 if(bool(firstPlay) == False):
                     if(igrac1 == "X"):
                         saveDictWalls.update({hashkey: oldWallDict})
@@ -157,7 +158,8 @@ while True:
             oldPawnsDict = copy.deepcopy(pawnsDict)
             oldWallDict = copy.deepcopy(wallDict)
             oldTable = copy.deepcopy(tabla)
-            DrawPawnMove(pawnsDict, igrac1, brojPesaka, spotAfterValidation)
+            DrawPawnMove(tabla, pawnsDict, igrac1,
+                         brojPesaka, spotAfterValidation)
             movePawn(pawnsDict, igrac1, brojPesaka, spotAfterValidation)
             if(bool(firstPlay) == False):
                 if(igrac1 == "X"):

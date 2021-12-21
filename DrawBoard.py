@@ -1,30 +1,28 @@
 from Pawns import pawnsDict, initialStateOfPawns
 from Walls import wallDict
 
-
 pozicije = list()
-tabla = list()
 
 
-def DrawStart(pawnsPosition: dict, tableSizeN: int, tableSizeM: int):
+def DrawStart(tabla: list, pawnsPosition: dict, tableSizeN: int, tableSizeM: int):
     # Ovo se poziva samo za prvo iscrtavanje
     StartingBoardState(tableSizeN, tableSizeM)
     DrawPawns(pawnsPosition)
-    StartingBoard(tableSizeN, tableSizeM)
-    DrawWalls()
-    DrawTable()
+    StartingBoard(tabla, tableSizeN, tableSizeM)
+    DrawWalls(tabla)
+    DrawTable(tabla)
 
 
-def DrawMove(pawnsPosition: dict, color: str, position: tuple, player: str, pawn: int, newSpot: tuple):
+def DrawMove(tabla: list, pawnsPosition: dict, color: str, position: tuple, player: str, pawn: int, newSpot: tuple):
     # Ovo se poziva za svaki potez
-    UpdatePawn(pawnsPosition, player, pawn, newSpot)
-    AddWall(color, position)
+    UpdatePawn(tabla, pawnsPosition, player, pawn, newSpot)
+    AddWall(tabla, color, position)
 
 
-def DrawPawnMove(pawnsPosition: dict, player: str, pawn: int, newSpot: tuple):
+def DrawPawnMove(tabla: list, pawnsPosition: dict, player: str, pawn: int, newSpot: tuple):
     # Ovo se poziva za svaki potez
-    UpdatePawn(pawnsPosition, player, pawn, newSpot)
-    DrawTable()
+    UpdatePawn(tabla, pawnsPosition, player, pawn, newSpot)
+    DrawTable(tabla)
 
 
 def StartingBoardState(tableSizeN: int, tableSizeM: int):
@@ -44,7 +42,7 @@ def DrawPawns(pawnsPosition: dict):
     pozicije[pawnsPosition['O'][1][0] - 1][pawnsPosition['O'][1][1] - 1] = 'O'
 
 
-def UpdatePawn(pawnsPosition: dict, player: str, pawn: int, newSpot: tuple):
+def UpdatePawn(tabla: list, pawnsPosition: dict, player: str, pawn: int, newSpot: tuple):
     newX = newSpot[0] * 2 - 1
     newY = newSpot[1] * 2 - 1
     oldSpot = pawnsPosition[player][pawn - 1]
@@ -69,7 +67,7 @@ def UpdatePawn(pawnsPosition: dict, player: str, pawn: int, newSpot: tuple):
         pozicije[newSpot[0] - 1][newSpot[1] - 1] = player
 
 
-def ValidatePawnMove(pawnsPosition: dict, player: str, pawn: int, newSpot: tuple):
+def ValidatePawnMove(tabla: list, pawnsPosition: dict, player: str, pawn: int, newSpot: tuple):
 
     # new_spot je nova pozicija u matrici sa zidovima, a newSpot je samo u matrici stanja
     newX = newSpot[0] * 2 - 1
@@ -167,7 +165,7 @@ def ValidatePawnMove(pawnsPosition: dict, player: str, pawn: int, newSpot: tuple
     return newSpot
 
 
-def StartingBoard(tableSizeN: int, tableSizeM: int):
+def StartingBoard(tabla: list, tableSizeN: int, tableSizeM: int):
     # Tabla je matrica koja ce da se stampa, sadrzi igrace, prazna polja i zidove
     newTableSizeN = tableSizeN * 2 + 1
     newTableSizeM = tableSizeM * 2 + 1
@@ -188,7 +186,7 @@ def StartingBoard(tableSizeN: int, tableSizeM: int):
         tabla.append(red)
 
 
-def DrawWalls():
+def DrawWalls(tabla: list):
     # Dodavanje zidova u tablu koja se iscrtava
     for i in range(0, len(list(wallDict['H']))):
         tabla[(wallDict['H'][i][0] + 1) *
@@ -203,7 +201,7 @@ def DrawWalls():
               3][(wallDict['V'][i][1] + 1) * 2] = " ||"
 
 
-def AddWall(color: str, position: tuple):
+def AddWall(tabla: list, color: str, position: tuple):
     if color == 'p':
         tabla[position[0] * 2][position[1] * 2 - 1] = "==="
         tabla[position[0] * 2][position[1] * 2 + 1] = "==="
@@ -212,7 +210,7 @@ def AddWall(color: str, position: tuple):
         tabla[position[0] * 2 + 1][position[1] * 2] = " ||"
 
 
-def DrawTable():
+def DrawTable(tabla: list):
 
     # Pomocna matrica koja ce da sadrzi i indekse
     itabla = list()
