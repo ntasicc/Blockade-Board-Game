@@ -82,9 +82,7 @@ def ValidatePawnMove(pawnsPosition: dict, player: str, pawn: int, newSpot: tuple
 
     # Proverava da li je pomeranje ucinjeno za dva mesta ili za jedno mesto ka cilju
     goal = pawnsPosition['start' + ('O' if player == 'X' else 'X')]
-    print(goal)
     distance = abs(oldSpot[0]-newSpot[0])+abs(oldSpot[1]-newSpot[1])
-    print(distance)
     if(distance != 2):
         if(distance == 1 and goal[0] != newSpot and goal[1] != newSpot):
             return False
