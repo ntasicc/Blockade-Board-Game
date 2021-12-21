@@ -1,6 +1,7 @@
 from Pawns import initialStateOfPawns, movePawn, pawnsDict
 from DrawBoard import DrawStart, DrawMove, DrawTable, ValidatePawnMove, DrawPawnMove, tabla
 from Walls import placeWall, validWall, wallDict, numOfWalls, initialStateOfWalls, NumOfColoredWall
+from Pathfinding import astar
 import copy
 
 saveDictWalls = {}
