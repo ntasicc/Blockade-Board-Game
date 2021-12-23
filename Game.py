@@ -139,6 +139,12 @@ while True:
                 elif(bool(firstPlay) == True):
                     if(igrac1 == "O"):
                         print("ovde idu nove funkcije")
+
+            else:
+                pawnsDict = copy.deepcopy(oldPawnsDict)
+                wallDict = copy.deepcopy(oldWallDict)
+                tabla = copy.deepcopy(oldTable)
+
     else:
 
         # Nije potrebno proveravati da li postoji put jer nema vise zidova za postavljanje
