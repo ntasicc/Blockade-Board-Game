@@ -48,13 +48,13 @@ hashkey = 0
 # OVDE JE KRAJ KLASE ZA SAD
 firstPlay = input(
     "Uneti True ukoliko prvo igra igrac, pritisnutu Enter ukoliko igra prvo PC: ")
-while True:
-    n, m = [int(x) for x in input(
+# while True:
+n, m = [int(x) for x in input(
         "Unesite N x M dimenzije table, odvojiti razmakom: ").split()]
-    if(n >= 11 and n <= 22):
-        if(m >= 14 and m <= 28):
-            break
-    print("Uneliste nevazece parametre, minimalna velicina je 11x14 maksimalna 22x28")
+# if(n >= 11 and n <= 22):
+# if(m >= 14 and m <= 28):
+#   break
+#print("Uneliste nevazece parametre, minimalna velicina je 11x14 maksimalna 22x28")
 
 zidovi = int(input("Unesite broj zidova: "))
 initxX1, inityX1 = [int(x) for x in input(
@@ -135,44 +135,23 @@ while True:
                 DrawTable(tabla)
                 if(bool(firstPlay) == False):
                     if(igrac1 == "X"):
-                        saveDictWalls.update({hashkey: oldWallDict})
-                        saveDictPawns.update({hashkey: oldPawnsDict})
-                        saveDictTable.update({hashkey: oldTable})
-                        hashkey = hashkey+1
+                        print("ovde idu nove funkcije")
                 elif(bool(firstPlay) == True):
                     if(igrac1 == "O"):
-                        saveDictWalls.update({hashkey: oldWallDict})
-                        saveDictPawns.update({hashkey: oldPawnsDict})
-                        saveDictTable.update({hashkey: oldTable})
-                        hashkey = hashkey+1
-
-            else:
-                pawnsDict = copy.deepcopy(oldPawnsDict)
-                wallDict = copy.deepcopy(oldWallDict)
-                tabla = copy.deepcopy(oldTable)
-
+                        print("ovde idu nove funkcije")
     else:
 
         # Nije potrebno proveravati da li postoji put jer nema vise zidova za postavljanje
         if spotAfterValidation != False:
-            oldPawnsDict = copy.deepcopy(pawnsDict)
-            oldWallDict = copy.deepcopy(wallDict)
-            oldTable = copy.deepcopy(tabla)
             DrawPawnMove(tabla, pawnsDict, igrac1,
                          brojPesaka, spotAfterValidation)
             movePawn(pawnsDict, igrac1, brojPesaka, spotAfterValidation)
             if(bool(firstPlay) == False):
                 if(igrac1 == "X"):
-                    saveDictWalls.update({hashkey: oldWallDict})
-                    saveDictPawns.update({hashkey: oldPawnsDict})
-                    saveDictTable.update({hashkey: oldTable})
-                    hashkey = hashkey+1
+                    print("ovde idu nove funkcije")
             elif(bool(firstPlay) == True):
                 if(igrac1 == "O"):
-                    saveDictWalls.update({hashkey: oldWallDict})
-                    saveDictPawns.update({hashkey: oldPawnsDict})
-                    saveDictTable.update({hashkey: oldTable})
-                    hashkey = hashkey+1
+                    print("ovde idu nove funkcije")
 
             Game1.whoseTurnIs = not Game1.whoseTurnIs
             WrongParameters = False
