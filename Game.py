@@ -58,14 +58,14 @@ def changeState(tabla: list, pawnsPositions: dict, color: str, position: tuple, 
 def allValidStates(tabla: list, pawnsDict: dict, wallDict: dict, player: str, pawn: int, tableSizeN: int, tableSizeM: int):
     validTables = list()
     validSpots = list()
-    coord: tuple = pawnsDict[player][pawn]
+    coord: tuple = pawnsDict[player][pawn-1]
     spotsToCheck: list = [(coord[0]+2, coord[1]), (coord[0]-2, coord[1]), (coord[0], coord[1]+2), (coord[0], coord[1]-2),
                           (coord[0]+1, coord[1]+1), (coord[0]+1, coord[1]-1), (coord[0]-1, coord[1]+1), (coord[0]-1, coord[1]-1)]
     for s in spotsToCheck:
         spotAfterValidation = ValidatePawnMove(tabla,
                                                pawnsDict, igrac1, brojPesaka, s)
         if(spotAfterValidation):
-            validSpots.append(s)
+            validSpots.append(spotAfterValidation)
 
     oldPawnsDict = copy.deepcopy(pawnsDict)
 
