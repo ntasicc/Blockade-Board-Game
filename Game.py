@@ -49,13 +49,13 @@ class Game:
 
 firstPlay = input(
     "Uneti True ukoliko prvo igra igrac, pritisnutu Enter ukoliko igra prvo PC: ")
-# while True:
-n, m = [int(x) for x in input(
+while True:
+    n, m = [int(x) for x in input(
         "Unesite N x M dimenzije table, odvojiti razmakom: ").split()]
-# if(n >= 11 and n <= 22):
-# if(m >= 14 and m <= 28):
-#   break
-#print("Uneliste nevazece parametre, minimalna velicina je 11x14 maksimalna 22x28")
+    if(n >= 11 and n <= 22):
+        if(m >= 14 and m <= 28):
+            break
+    print("Uneliste nevazece parametre, minimalna velicina je 11x14 maksimalna 22x28")
 
 zidovi = int(input("Unesite broj zidova: "))
 initxX1, inityX1 = [int(x) for x in input(
@@ -134,14 +134,14 @@ while True:
                 WrongParameters = False
                 numOfTurns += 1
                 DrawTable(tabla)
-                if(bool(firstPlay) == False):
-                    if(igrac1 == "X"):
-                        ovde = allValidStates(tabla, pawnsDict, wallDict,
-                                              "X", brojPesaka, Game1.n, Game1.m)
-                elif(bool(firstPlay) == True):
-                    if(igrac1 == "O"):
-                        ovde = allValidStates(tabla, pawnsDict, wallDict,
-                                              "O", brojPesaka, Game1.n, Game1.m)
+                # if(bool(firstPlay) == False):
+                #     if(igrac1 == "X"):
+                #         ovde = allValidStates(tabla, pawnsDict, wallDict,
+                #                               "X", brojPesaka, Game1.n, Game1.m)
+                # elif(bool(firstPlay) == True):
+                #     if(igrac1 == "O"):
+                #         ovde = allValidStates(tabla, pawnsDict, wallDict,
+                #                               "O", brojPesaka, Game1.n, Game1.m)
 
             else:
                 pawnsDict = copy.deepcopy(oldPawnsDict)
@@ -155,12 +155,14 @@ while True:
             DrawPawnMove(tabla, pawnsDict, igrac1,
                          brojPesaka, spotAfterValidation)
             movePawn(pawnsDict, igrac1, brojPesaka, spotAfterValidation)
-            if(bool(firstPlay) == False):
-                if(igrac1 == "X"):
-                    print("ovde idu nove funkcije")
-            elif(bool(firstPlay) == True):
-                if(igrac1 == "O"):
-                    print("ovde idu nove funkcije")
+            # if(bool(firstPlay) == False):
+            #     if(igrac1 == "X"):
+            #         ovde = allValidStates(tabla, pawnsDict, wallDict,
+            #                               "X", brojPesaka, Game1.n, Game1.m)
+            # elif(bool(firstPlay) == True):
+            #     if(igrac1 == "O"):
+            #         ovde = allValidStates(tabla, pawnsDict, wallDict,
+            #                               "O", brojPesaka, Game1.n, Game1.m)
 
             Game1.whoseTurnIs = not Game1.whoseTurnIs
             WrongParameters = False
