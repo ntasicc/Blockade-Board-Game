@@ -1,13 +1,43 @@
 from StateOfTheBoard import allValidStates
 
 
-def checkValue(tabla):
-    return
+def checkValue(tabla, pawnsDict):
+    score = 0
+
+    for i in range(0, 2):
+        current_pos = (pawnsDict['X'][i][0] * 2 - 1,
+                       pawnsDict['X'][i][1] * 2 - 1)
+        end0 = (pawnsDict['startO'][0][0] * 2 - 1,
+                pawnsDict['startO'][0][1] * 2 - 1)
+        end1 = (pawnsDict['startO'][1][0] * 2 - 1,
+                pawnsDict['startO'][1][1] * 2 - 1)
+
+        distance0 = abs((tabla[current_pos[0]] - tabla[end0[0]]) +
+                        (tabla[current_pos[1]] - tabla[end0[1]]))
+        distance1 = abs((tabla[current_pos[0]] - tabla[end1[0]]) +
+                        (tabla[current_pos[1]] - tabla[end1[1]]))
+        score += min(distance0, distance1)
+
+    for i in range(0, 2):
+        current_pos = (pawnsDict['O'][i][0] * 2 - 1,
+                       pawnsDict['O'][i][1] * 2 - 1)
+        end0 = (pawnsDict['startX'][0][0] * 2 - 1,
+                pawnsDict['startX'][0][1] * 2 - 1)
+        end1 = (pawnsDict['startX'][1][0] * 2 - 1,
+                pawnsDict['startX'][1][1] * 2 - 1)
+
+        distance0 = abs((tabla[current_pos[0]] - tabla[end0[0]]) +
+                        (tabla[current_pos[1]] - tabla[end0[1]]))
+        distance1 = abs((tabla[current_pos[0]] - tabla[end1[0]]) +
+                        (tabla[current_pos[1]] - tabla[end1[1]]))
+        score -= min(distance0, distance1)
+
+    return score
 
 
 def max_value(tabla, depth, alpha, beta, pawnsDict, wallDict, tableSizeN, tableSizeM):
     if depth == 0:
-        return (tabla, checkValue(tabla))
+        return (tabla, checkValue(tabla, pawnsDict))
     else:
         list_states = allValidStates(
             tabla, pawnsDict, wallDict, "X", 1, tableSizeN, tableSizeN)
@@ -25,7 +55,7 @@ def max_value(tabla, depth, alpha, beta, pawnsDict, wallDict, tableSizeN, tableS
 
 def min_value(tabla, depth, alpha, beta, pawnsDict, wallDict, tableSizeN, tableSizeM):
     if depth == 0:
-        return (tabla, checkValue(tabla))
+        return (tabla, checkValue(tabla, pawnsDict))
     else:
         list_states = allValidStates(
             tabla, pawnsDict, wallDict, "O", 1, tableSizeN, tableSizeN)
