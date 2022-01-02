@@ -3,6 +3,7 @@ from DrawBoard import DrawStart, DrawMove, DrawTable, ValidatePawnMove, DrawPawn
 from Walls import placeWall, validWall, wallDict, numOfWalls, initialStateOfWalls, NumOfColoredWall
 from Pathfinding import astar
 from StateOfTheBoard import allValidStates
+from MinMax import minimax
 import copy
 
 saveDictWalls = {}
@@ -49,13 +50,8 @@ class Game:
 
 firstPlay = input(
     "Uneti True ukoliko prvo igra igrac, pritisnutu Enter ukoliko igra prvo PC: ")
-while True:
-    n, m = [int(x) for x in input(
-        "Unesite N x M dimenzije table, odvojiti razmakom: ").split()]
-    if(n >= 11 and n <= 22):
-        if(m >= 14 and m <= 28):
-            break
-    print("Uneliste nevazece parametre, minimalna velicina je 11x14 maksimalna 22x28")
+n, m = [int(x) for x in input(
+    "Unesite N x M dimenzije table, odvojiti razmakom: ").split()]
 
 zidovi = int(input("Unesite broj zidova: "))
 initxX1, inityX1 = [int(x) for x in input(
@@ -134,14 +130,8 @@ while True:
                 WrongParameters = False
                 numOfTurns += 1
                 DrawTable(tabla)
-                # if(bool(firstPlay) == False):
-                #     if(igrac1 == "X"):
-                #         ovde = allValidStates(tabla, pawnsDict, wallDict,
-                #                               "X", brojPesaka, Game1.n, Game1.m)
-                # elif(bool(firstPlay) == True):
-                #     if(igrac1 == "O"):
-                #         ovde = allValidStates(tabla, pawnsDict, wallDict,
-                #                               "O", brojPesaka, Game1.n, Game1.m)
+
+                minimax(tabla, 3, 0, 10, pawnsDict, wallDict, n, m)
 
             else:
                 pawnsDict = copy.deepcopy(oldPawnsDict)
@@ -155,14 +145,8 @@ while True:
             DrawPawnMove(tabla, pawnsDict, igrac1,
                          brojPesaka, spotAfterValidation)
             movePawn(pawnsDict, igrac1, brojPesaka, spotAfterValidation)
-            # if(bool(firstPlay) == False):
-            #     if(igrac1 == "X"):
-            #         ovde = allValidStates(tabla, pawnsDict, wallDict,
-            #                               "X", brojPesaka, Game1.n, Game1.m)
-            # elif(bool(firstPlay) == True):
-            #     if(igrac1 == "O"):
-            #         ovde = allValidStates(tabla, pawnsDict, wallDict,
-            #                               "O", brojPesaka, Game1.n, Game1.m)
+
+            minimax(tabla, 3, 0, 10, pawnsDict, wallDict, n, m)
 
             Game1.whoseTurnIs = not Game1.whoseTurnIs
             WrongParameters = False
