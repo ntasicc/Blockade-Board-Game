@@ -57,7 +57,7 @@ def astar(tabla_a: list, start_s: tuple, end_s: tuple):
 
         # Koordinate mogucih zidova u odnosu na trenutnu pozicijiu
         walls = [(0, -1), (0, 1), (-1, 0), (1, 0)]
-        walls_diagonal = [(-1, -1), (1, 1), (-1, 1), (1, -1)]
+        w_d = [(-1, -1), (1, 1), (-1, 1), (1, -1)]  # wall_diagonal
         positions = [(0, -2), (0, 2), (-2, 0), (2, 0),
                      (-2, -2), (2, 2), (-2, 2), (2, -2)]
 
@@ -72,25 +72,27 @@ def astar(tabla_a: list, start_s: tuple, end_s: tuple):
 
             # Proverava se da li postoje zidovi
             if positions.index(new_position) < 4:
-                walls_position = (
+                # wall_position
+                w_p = (
                     current_node.position[0] + walls[positions.index(new_position)][0], current_node.position[1] + walls[positions.index(new_position)][1])
-                if tabla_a[walls_position[0]][walls_position[1]] == " ||" or tabla_a[walls_position[0]][walls_position[1]] == "===" or tabla_a[walls_position[0]][walls_position[1]] == "||":
+                if tabla_a[w_p[0]][w_p[1]] == " ||" or tabla_a[w_p[0]][w_p[1]] == "===" or tabla_a[w_p[0]][w_p[1]] == "||":
                     continue
             elif positions.index(new_position) >= 4 and positions.index(new_position) < 6:
-                wall_centre = (
-                    current_node.position[0] + walls_diagonal[positions.index(new_position) % 4][0], current_node.position[1] + walls_diagonal[positions.index(new_position) % 4][1])
-                if ((tabla_a[wall_centre[0] - 1][wall_centre[1]] == " ||" and tabla_a[wall_centre[0]][wall_centre[1] - 1] == "===") or
-                    (tabla_a[wall_centre[0] - 1][wall_centre[1]] == " ||" and tabla_a[wall_centre[0] + 1][wall_centre[1]] == " ||") or
-                    (tabla_a[wall_centre[0] + 1][wall_centre[1]] == " ||" and tabla_a[wall_centre[0]][wall_centre[1] + 1] == "===") or
-                        (tabla_a[wall_centre[0]][wall_centre[1] - 1] == "===" and tabla_a[wall_centre[0]][wall_centre[1] + 1] == "===")):
+                # wall_center
+                w_c = (
+                    current_node.position[0] + w_d[positions.index(new_position) % 4][0], current_node.position[1] + w_d[positions.index(new_position) % 4][1])
+                if ((tabla_a[w_c[0] - 1][w_c[1]] == " ||" and tabla_a[w_c[0]][w_c[1] - 1] == "===") or
+                    (tabla_a[w_c[0] - 1][w_c[1]] == " ||" and tabla_a[w_c[0] + 1][w_c[1]] == " ||") or
+                    (tabla_a[w_c[0] + 1][w_c[1]] == " ||" and tabla_a[w_c[0]][w_c[1] + 1] == "===") or
+                        (tabla_a[w_c[0]][w_c[1] - 1] == "===" and tabla_a[w_c[0]][w_c[1] + 1] == "===")):
                     continue
             else:
-                wall_centre = (
-                    current_node.position[0] + walls_diagonal[positions.index(new_position) % 4][0], current_node.position[1] + walls_diagonal[positions.index(new_position) % 4][1])
-                if ((tabla_a[wall_centre[0] - 1][wall_centre[1]] == " ||" and tabla_a[wall_centre[0]][wall_centre[1] + 1] == "===") or
-                    (tabla_a[wall_centre[0] - 1][wall_centre[1]] == " ||" and tabla_a[wall_centre[0] + 1][wall_centre[1]] == " ||") or
-                    (tabla_a[wall_centre[0] + 1][wall_centre[1]] == " ||" and tabla_a[wall_centre[0]][wall_centre[1] - 1] == "===") or
-                        (tabla_a[wall_centre[0]][wall_centre[1] - 1] == "===" and tabla_a[wall_centre[0]][wall_centre[1] + 1] == "===")):
+                w_c = (
+                    current_node.position[0] + w_d[positions.index(new_position) % 4][0], current_node.position[1] + w_d[positions.index(new_position) % 4][1])
+                if ((tabla_a[w_c[0] - 1][w_c[1]] == " ||" and tabla_a[w_c[0]][w_c[1] + 1] == "===") or
+                    (tabla_a[w_c[0] - 1][w_c[1]] == " ||" and tabla_a[w_c[0] + 1][w_c[1]] == " ||") or
+                    (tabla_a[w_c[0] + 1][w_c[1]] == " ||" and tabla_a[w_c[0]][w_c[1] - 1] == "===") or
+                        (tabla_a[w_c[0]][w_c[1] - 1] == "===" and tabla_a[w_c[0]][w_c[1] + 1] == "===")):
                     continue
 
             new_node = Node(current_node, node_position)
