@@ -41,11 +41,15 @@ def max_value(tabla, depth, alpha, beta, pawnsDict, wallDict, tableSizeN, tableS
     else:
         list_states = allValidStates(
             tabla, pawnsDict, wallDict, "X", 1, tableSizeN, tableSizeN)
-        list_states.append(allValidStates(
+        tempList = allValidStates(
             tabla, pawnsDict, wallDict, "X", 2, tableSizeN, tableSizeN)
+        list_states[0].extend(tempList[0])
+        list_states[1].extend(tempList[1])
+        list_states[2].extend(tempList[2])
+
         for s in list_states[0]:
-            index=list_states[0].index(s)
-            alpha=max(alpha, min_value(tabla, depth-1, alpha, beta,
+            index = list_states[0].index(s)
+            alpha = max(alpha, min_value(s, depth-1, alpha, beta,
                                          list_states[1][index], list_states[2][index], tableSizeN, tableSizeM), key=lambda x: x[1])
             if alpha[1] >= beta[1]:
                 return beta
@@ -57,13 +61,16 @@ def min_value(tabla, depth, alpha, beta, pawnsDict, wallDict, tableSizeN, tableS
     if depth == 0:
         return (tabla, checkValue(pawnsDict))
     else:
-        list_states=allValidStates(
+        list_states = allValidStates(
             tabla, pawnsDict, wallDict, "O", 1, tableSizeN, tableSizeN)
-        list_states.append(allValidStates(
-            tabla, pawnsDict, wallDict, "O", 2, tableSizeN, tableSizeN))
+        tempList = allValidStates(
+            tabla, pawnsDict, wallDict, "O", 2, tableSizeN, tableSizeN)
+        list_states[0].extend(tempList[0])
+        list_states[1].extend(tempList[1])
+        list_states[2].extend(tempList[2])
         for s in list_states[0]:
-            index=list_states[0].index(s)
-            beta=max(beta, max_value(tabla, depth-1, alpha, beta,
+            index = list_states[0].index(s)
+            beta = min(beta, max_value(s, depth-1, alpha, beta,
                                        list_states[1][index], list_states[2][index], tableSizeN, tableSizeM), key=lambda x: x[1])
             if beta[1] <= alpha[1]:
                 return alpha

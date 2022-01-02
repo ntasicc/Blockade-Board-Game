@@ -131,7 +131,8 @@ while True:
                 numOfTurns += 1
                 DrawTable(tabla)
 
-                minimax(tabla, 3, 0, 10, pawnsDict, wallDict, n, m)
+                tempp = minimax(tabla, 2, (tabla, 0), (tabla, 10),
+                                pawnsDict, wallDict, n, m)
 
             else:
                 pawnsDict = copy.deepcopy(oldPawnsDict)
