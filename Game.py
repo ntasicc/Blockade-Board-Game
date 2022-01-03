@@ -131,7 +131,7 @@ while True:
                 numOfTurns += 1
                 DrawTable(tabla)
 
-                tempp = minimax(tabla, 2, (tabla, 0), (tabla, 10),
+                tempp = minimax(tabla, 2, (tabla, -100), (tabla, 100),
                                 pawnsDict, wallDict, n, m)
 
             else:
@@ -147,7 +147,8 @@ while True:
                          brojPesaka, spotAfterValidation)
             movePawn(pawnsDict, igrac1, brojPesaka, spotAfterValidation)
 
-            minimax(tabla, 3, 0, 10, pawnsDict, wallDict, n, m)
+            tempp = minimax(tabla, 2, (tabla, -100), (tabla, 100),
+                            pawnsDict, wallDict, n, m)
 
             Game1.whoseTurnIs = not Game1.whoseTurnIs
             WrongParameters = False

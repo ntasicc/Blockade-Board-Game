@@ -88,9 +88,9 @@ def ValidatePawnMove(tabla: list, pawnsPosition: dict, player: str, pawn: int, n
             return False
 
     # Proverava da li je nova pozicija van granica table
-    if (newSpot[1] > len(pozicije) or newSpot[1] < 0):
+    if (newX >= len(tabla) or newX < 0):
         return False
-    elif (newSpot[0] > len(pozicije[0]) or newSpot[0] < 0):
+    elif (newY >= len(tabla[0]) or newY < 0):
         return False
 
     # Gore
