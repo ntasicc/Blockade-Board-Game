@@ -3,7 +3,7 @@ from DrawBoard import DrawStart, DrawMove, DrawTable, ValidatePawnMove, DrawPawn
 from Walls import placeWall, validWall, wallDict, numOfWalls, initialStateOfWalls, NumOfColoredWall
 from Pathfinding import astar
 from StateOfTheBoard import allValidStates
-from MinMax import minimax
+from MinMax import minimax, minimax2
 import copy
 
 saveDictWalls = {}
@@ -87,8 +87,11 @@ if(includePc == "da"):
         WrongParameters = True
 
         if(firstPlay != "True"):
-            tabla = minimax(tabla, 2, (tabla, -100), (tabla, 100),
-                            pawnsDict, wallDict, n, m)[0]
+            minimax_return = minimax2(
+                (tabla, pawnsDict, wallDict), 2, False, n, m)
+            tabla = copy.deepcopy(minimax_return[0][0])
+            pawnsDict = copy.deepcopy(minimax_return[0][1])
+            wallDict = copy.deepcopy(minimax_return[0][2])
             Game1.whoseTurnIs = not Game1.whoseTurnIs
             WrongParameters = False
             Game1.numOfTurns += 1
@@ -144,8 +147,11 @@ if(includePc == "da"):
                         WrongParameters = False
                         Game1.numOfTurns += 1
                         DrawTable(tabla)
-                        tabla = minimax(tabla, 2, (tabla, -100), (tabla, 100),
-                                        pawnsDict, wallDict, n, m)[0]
+                        minimax_return = minimax2(
+                            (tabla, pawnsDict, wallDict), 2, False, n, m)
+                        tabla = copy.deepcopy(minimax_return[0][0])
+                        pawnsDict = copy.deepcopy(minimax_return[0][1])
+                        wallDict = copy.deepcopy(minimax_return[0][2])
                         DrawTable(tabla)
 
                     else:
@@ -158,13 +164,16 @@ if(includePc == "da"):
                 # Nije potrebno proveravati da li postoji put jer nema vise zidova za postavljanje
                 if spotAfterValidation != False:
 
-                    tabla = minimax(tabla, 2, (tabla, -100), (tabla, 100),
-                                    pawnsDict, wallDict, n, m)[0]
                     DrawPawnMove(tabla, pawnsDict, igrac1,
                                  brojPesaka, spotAfterValidation)
                     movePawn(pawnsDict, igrac1, brojPesaka,
                              spotAfterValidation)
-
+                    minimax_return = minimax2(
+                        (tabla, pawnsDict, wallDict), 2, False, n, m)
+                    tabla = copy.deepcopy(minimax_return[0][0])
+                    pawnsDict = copy.deepcopy(minimax_return[0][1])
+                    wallDict = copy.deepcopy(minimax_return[0][2])
+                    DrawTable(tabla)
                     #Game1.whoseTurnIs = not Game1.whoseTurnIs
                     WrongParameters = False
                     Game1.numOfTurns += 1

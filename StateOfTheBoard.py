@@ -20,6 +20,7 @@ def allValidStates(tabla: list, pawnsDict: dict, wallDict: dict, player: str, pa
     validTables = list()
     validPD = list()
     validWD = list()
+    valid = list()
     validSpots = list()
     coord: tuple = pawnsDict[player][pawn-1]
     spotsToCheck: list = [(coord[0]+2, coord[1]), (coord[0]-2, coord[1]), (coord[0], coord[1]+2), (coord[0], coord[1]-2),
@@ -48,9 +49,8 @@ def allValidStates(tabla: list, pawnsDict: dict, wallDict: dict, player: str, pa
                             placeWall(oldWallDict, player, bojaZida, (i, j))
 
                             if(astar(newTable, oldPawnsDict['X'][0], oldPawnsDict['startO'][0]) and astar(newTable, oldPawnsDict['X'][0], oldPawnsDict['startO'][1]) and astar(newTable, oldPawnsDict['X'][1], oldPawnsDict['startO'][0]) and astar(newTable, oldPawnsDict['X'][1], oldPawnsDict['startO'][1]) and astar(newTable, oldPawnsDict['O'][0], oldPawnsDict['startX'][0]) and astar(newTable, oldPawnsDict['O'][0], oldPawnsDict['startX'][1]) and astar(newTable, oldPawnsDict['O'][1], oldPawnsDict['startX'][0]) and astar(newTable, oldPawnsDict['O'][1], oldPawnsDict['startX'][1])):
-                                validTables.append(newTable)
-                                validPD.append(oldPawnsDict)
-                                validWD.append(oldWallDict)
+                                valid.append(
+                                    (newTable, oldPawnsDict, oldWallDict))
 
                             oldPawnsDict = copy.deepcopy(pawnsDict)
                             oldWallDict = copy.deepcopy(wallDict)
@@ -60,8 +60,6 @@ def allValidStates(tabla: list, pawnsDict: dict, wallDict: dict, player: str, pa
                                        (0, 0), player, pawn, v, False)
                 movePawn(oldPawnsDict, player, pawn,
                          v)
-                validPD.append(oldPawnsDict)
-                validTables.append(newTable)
-                validWD.append(oldWallDict)
+                valid.append((newTable, oldPawnsDict, oldWallDict))
                 oldPawnsDict = copy.deepcopy(pawnsDict)
-    return [validTables, validPD, validWD]
+    return valid

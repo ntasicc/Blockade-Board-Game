@@ -37,12 +37,12 @@ def checkValue(pawnsDict):
 
 def max_value(tabla, depth, alpha, beta, pawnsDict, wallDict, tableSizeN, tableSizeM):
     if depth == 0:
-        return (tabla, checkValue(pawnsDict))
+        return (tabla, checkValue(pawnsDict), pawnsDict, wallDict)
     else:
         list_states = allValidStates(
-            tabla, pawnsDict, wallDict, "X", 1, tableSizeN, tableSizeN)
+            tabla, pawnsDict, wallDict, "X", 1, tableSizeN, tableSizeM)
         tempList = allValidStates(
-            tabla, pawnsDict, wallDict, "X", 2, tableSizeN, tableSizeN)
+            tabla, pawnsDict, wallDict, "X", 2, tableSizeN, tableSizeM)
         list_states[0].extend(tempList[0])
         list_states[1].extend(tempList[1])
         list_states[2].extend(tempList[2])
@@ -59,12 +59,12 @@ def max_value(tabla, depth, alpha, beta, pawnsDict, wallDict, tableSizeN, tableS
 
 def min_value(tabla, depth, alpha, beta, pawnsDict, wallDict, tableSizeN, tableSizeM):
     if depth == 0:
-        return (tabla, checkValue(pawnsDict))
+        return (tabla, checkValue(pawnsDict), pawnsDict, wallDict)
     else:
         list_states = allValidStates(
-            tabla, pawnsDict, wallDict, "O", 1, tableSizeN, tableSizeN)
+            tabla, pawnsDict, wallDict, "O", 1, tableSizeN, tableSizeM)
         tempList = allValidStates(
-            tabla, pawnsDict, wallDict, "O", 2, tableSizeN, tableSizeN)
+            tabla, pawnsDict, wallDict, "O", 2, tableSizeN, tableSizeM)
         list_states[0].extend(tempList[0])
         list_states[1].extend(tempList[1])
         list_states[2].extend(tempList[2])
@@ -79,3 +79,28 @@ def min_value(tabla, depth, alpha, beta, pawnsDict, wallDict, tableSizeN, tableS
 
 def minimax(tabla, depth, alpha, beta, pawnsDict, wallDict, tableSizeN, tableSizeM):
     return min_value(tabla, depth, alpha, beta, pawnsDict, wallDict, tableSizeN, tableSizeM)
+
+
+def max_stanje(lsv):
+    return max(lsv, key=lambda x: x[1])
+
+
+def min_stanje(lsv):
+    return min(lsv, key=lambda x: x[1])
+
+
+def minimax2(stanje, dubina, moj_potez, tableSizeN, tableSizeM, potez=None):
+    igrac = "X" if moj_potez else "O"
+    fja = max_stanje if moj_potez else min_stanje
+    lp = allValidStates(
+        stanje[0], stanje[1], stanje[2], igrac, 1, tableSizeN, tableSizeM)
+    tempList = allValidStates(
+        stanje[0], stanje[1], stanje[2], igrac, 2, tableSizeN, tableSizeM)
+    lp.extend(tempList)
+    if dubina == 0:
+        return (potez, checkValue(stanje[1]))
+
+    if lp is None or len(lp) == 0:
+        return (potez, checkValue(stanje[1]))
+
+    return fja([minimax2(x, dubina - 1, not moj_potez, tableSizeN, tableSizeM, x if potez is None else potez) for x in lp])
