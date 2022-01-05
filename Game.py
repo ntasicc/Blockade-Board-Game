@@ -87,8 +87,9 @@ if(includePc == "da"):
         WrongParameters = True
 
         if(firstPlay != "True"):
+            stanje = (tabla, pawnsDict, wallDict)
             minimax_return = minimax2(
-                (tabla, pawnsDict, wallDict), 2, False, n, m)
+                stanje, 2, False, n, m, (stanje, -1000), (stanje, 1000))
             tabla = copy.deepcopy(minimax_return[0][0])
             pawnsDict = copy.deepcopy(minimax_return[0][1])
             wallDict = copy.deepcopy(minimax_return[0][2])
@@ -147,8 +148,9 @@ if(includePc == "da"):
                         WrongParameters = False
                         Game1.numOfTurns += 1
                         DrawTable(tabla)
+                        stanje = (tabla, pawnsDict, wallDict)
                         minimax_return = minimax2(
-                            (tabla, pawnsDict, wallDict), 2, False, n, m)
+                            stanje, 2, False, n, m, (stanje, -1000), (stanje, 1000))
                         tabla = copy.deepcopy(minimax_return[0][0])
                         pawnsDict = copy.deepcopy(minimax_return[0][1])
                         wallDict = copy.deepcopy(minimax_return[0][2])
@@ -168,8 +170,9 @@ if(includePc == "da"):
                                  brojPesaka, spotAfterValidation)
                     movePawn(pawnsDict, igrac1, brojPesaka,
                              spotAfterValidation)
+                    stanje = (tabla, pawnsDict, wallDict)
                     minimax_return = minimax2(
-                        (tabla, pawnsDict, wallDict), 2, False, n, m)
+                        stanje, 2, False, n, m, (stanje, -1000), (stanje, 1000))
                     tabla = copy.deepcopy(minimax_return[0][0])
                     pawnsDict = copy.deepcopy(minimax_return[0][1])
                     wallDict = copy.deepcopy(minimax_return[0][2])
