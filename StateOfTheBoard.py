@@ -17,9 +17,6 @@ def changeState(tabla: list, pawnsPositions: dict, color: str, position: tuple, 
 
 
 def allValidStates(tabla: list, pawnsDict: dict, wallDict: dict, player: str, pawn: int, tableSizeN: int, tableSizeM: int):
-    validTables = list()
-    validPD = list()
-    validWD = list()
     valid = list()
     validSpots = list()
     coord: tuple = pawnsDict[player][pawn-1]
