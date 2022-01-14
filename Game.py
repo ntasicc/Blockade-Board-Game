@@ -1,9 +1,10 @@
+from tabnanny import check
 from Pawns import initialStateOfPawns, movePawn, pawnsDict
 from DrawBoard import DrawStart, DrawMove, DrawTable, ValidatePawnMove, DrawPawnMove
 from Walls import placeWall, validWall, wallDict, numOfWalls, initialStateOfWalls, NumOfColoredWall
 from Pathfinding import astar
 from StateOfTheBoard import allValidStates
-from MinMax import minimax, minimax2
+from MinMax import minimax2, checkValue
 import copy
 
 saveDictWalls = {}
@@ -234,6 +235,7 @@ else:
                          igrac1, brojPesaka, spotAfterValidation)
                 movePawn(pawnsDict, igrac1, brojPesaka, spotAfterValidation)
                 placeWall(wallDict, igrac1, bojaZida, (vrstaZid, kolonaZid))
+                temp = checkValue((tabla, pawnsDict, wallDict))
 
                 # Provera da li postoji put do cilja, ako ne postoji vraca se na stare vrednosti i potez se racuna kao nevalidan (na potezu je isti igrac)
                 if(astar(tabla, pawnsDict['X'][0], pawnsDict['startO'][0]) and astar(tabla, pawnsDict['X'][0], pawnsDict['startO'][1]) and astar(tabla, pawnsDict['X'][1], pawnsDict['startO'][0]) and astar(tabla, pawnsDict['X'][1], pawnsDict['startO'][1]) and astar(tabla, pawnsDict['O'][0], pawnsDict['startX'][0]) and astar(tabla, pawnsDict['O'][0], pawnsDict['startX'][1]) and astar(tabla, pawnsDict['O'][1], pawnsDict['startX'][0]) and astar(tabla, pawnsDict['O'][1], pawnsDict['startX'][1])):
