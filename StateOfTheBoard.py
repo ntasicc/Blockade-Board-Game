@@ -20,8 +20,24 @@ def allValidStates(tabla: list, pawnsDict: dict, wallDict: dict, player: str, pa
     valid = list()
     validSpots = list()
     coord: tuple = pawnsDict[player][pawn-1]
-    spotsToCheck: list = [(coord[0]+2, coord[1]), (coord[0]-2, coord[1]), (coord[0], coord[1]+2), (coord[0], coord[1]-2),
-                          (coord[0]+1, coord[1]+1), (coord[0]+1, coord[1]-1), (coord[0]-1, coord[1]+1), (coord[0]-1, coord[1]-1)]
+
+    if pawnsDict['startX'][0][0] < pawnsDict['startO'][0][0]:
+        # startna pozicija X je visa od O
+        if player == 'X':
+            spotsToCheck: list = [(coord[0]+2, coord[1]), (coord[0], coord[1]+2), (coord[0], coord[1]-2),
+                                  (coord[0]+1, coord[1]+1), (coord[0]+1, coord[1]-1)]
+        else:
+            spotsToCheck: list = [(coord[0]-2, coord[1]), (coord[0], coord[1]+2), (coord[0], coord[1]-2),
+                                  (coord[0]-1, coord[1]+1), (coord[0]-1, coord[1]-1)]
+    else:
+        # Startna pozicija X je niza od O
+        if player == 'X':
+            spotsToCheck: list = [(coord[0]-2, coord[1]), (coord[0], coord[1]+2), (coord[0], coord[1]-2),
+                                  (coord[0]-1, coord[1]+1), (coord[0]-1, coord[1]-1)]
+        else:
+            spotsToCheck: list = [(coord[0]+2, coord[1]), (coord[0], coord[1]+2), (coord[0], coord[1]-2),
+                                  (coord[0]+1, coord[1]+1), (coord[0]+1, coord[1]-1)]
+
     for s in spotsToCheck:
         spotAfterValidation = ValidatePawnMove(tabla,
                                                pawnsDict, player, pawn, s)
@@ -36,8 +52,8 @@ def allValidStates(tabla: list, pawnsDict: dict, wallDict: dict, player: str, pa
         bojaZida = boje[i]
         if(numOfWalls(wallDict, player, bojaZida)):
             for v in validSpots:
-                for i in range(1, tableSizeN):
-                    for j in range(1, tableSizeM):
+                for i in range(1, tableSizeN, 3):
+                    for j in range(1, tableSizeM, 3):
                         if (validWall(player, bojaZida, (i, j), tableSizeN, tableSizeM)):
                             newTable = changeState(tabla, oldPawnsDict, bojaZida,
                                                    (i, j), player, pawn, v, True)

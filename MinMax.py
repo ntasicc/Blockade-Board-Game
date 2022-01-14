@@ -69,6 +69,7 @@ def checkValue(stanje):
                         (current_pos[1] - end1[1]))
         score -= min(distance0, distance1)
 
+    score = 0 - score
     return score
 
 

@@ -5,6 +5,7 @@ from Walls import placeWall, validWall, wallDict, numOfWalls, initialStateOfWall
 from Pathfinding import astar
 from StateOfTheBoard import allValidStates
 from MinMax import minimax2, checkValue
+from MinMax import minimax2
 import copy
 
 saveDictWalls = {}
