@@ -3,14 +3,34 @@ from StateOfTheBoard import allValidStates
 
 def checkValue(stanje):
     score = 0
-
+    temp1 = ()
+    temp2 = ()
+    temp3 = ()
+    temp4 = ()
     for i in range(0, 2):
-        current_pos = (stanje[1]['X'][i][0] * 2 - 1,
-                       stanje[1]['X'][i][1] * 2 - 1)
-        end0 = (stanje[1]['startO'][0][0] * 2 - 1,
-                stanje[1]['startO'][0][1] * 2 - 1)
-        end1 = (stanje[1]['startO'][1][0] * 2 - 1,
-                stanje[1]['startO'][1][1] * 2 - 1)
+        current_pos = stanje[1]['X'][i]
+        end0 = stanje[1]['startO'][0]
+        end1 = stanje[1]['startO'][1]
+
+        if(current_pos > end0):
+            temp1 = current_pos
+            temp2 = end0
+        else:
+            temp2 = current_pos
+            temp1 = end0
+
+        if(current_pos > end1):
+            temp3 = current_pos
+            temp4 = end1
+        else:
+            temp4 = current_pos
+            temp3 = end1
+
+        allWalls = stanje[2]['V']
+        allWalls.extend(stanje[2]['H'])
+        for wall in allWalls:
+            if(((wall[0]+1, wall[1]+1) >= temp1) and ((wall[0]+1, wall[1]+1) <= temp2) or ((wall[0]+1, wall[1]+1) >= temp3) and ((wall[0]+1, wall[1]+1) <= temp4)):
+                score += 2
 
         distance0 = abs((current_pos[0] - end0[0]) +
                         (current_pos[1] - end0[1]))
@@ -19,12 +39,29 @@ def checkValue(stanje):
         score += min(distance0, distance1)
 
     for i in range(0, 2):
-        current_pos = (stanje[1]['O'][i][0] * 2 - 1,
-                       stanje[1]['O'][i][1] * 2 - 1)
-        end0 = (stanje[1]['startX'][0][0] * 2 - 1,
-                stanje[1]['startX'][0][1] * 2 - 1)
-        end1 = (stanje[1]['startX'][1][0] * 2 - 1,
-                stanje[1]['startX'][1][1] * 2 - 1)
+        current_pos = stanje[1]['O'][i]
+        end0 = stanje[1]['startX'][0]
+        end1 = stanje[1]['startX'][1]
+
+        if(current_pos > end0):
+            temp1 = current_pos
+            temp2 = end0
+        else:
+            temp2 = current_pos
+            temp1 = end0
+
+        if(current_pos > end1):
+            temp3 = current_pos
+            temp4 = end1
+        else:
+            temp4 = current_pos
+            temp3 = end1
+
+        allWalls = stanje[2]['V']
+        allWalls.extend(stanje[2]['H'])
+        for wall in allWalls:
+            if(((wall[0]+1, wall[1]+1) >= temp1) and ((wall[0]+1, wall[1]+1) <= temp2) or ((wall[0]+1, wall[1]+1) >= temp3) and ((wall[0]+1, wall[1]+1) <= temp4)):
+                score -= 2
 
         distance0 = abs((current_pos[0] - end0[0]) +
                         (current_pos[1] - end0[1]))
