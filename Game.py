@@ -89,7 +89,7 @@ if(includePc == "da"):
         if(firstPlay != "True"):
             stanje = (tabla, pawnsDict, wallDict)
             minimax_return = minimax3(
-                stanje, 2, False, n, m, (stanje, -1000), (stanje, 1000))
+                stanje, 1, False, n, m, (stanje, -1000), (stanje, 1000))
             tabla = copy.deepcopy(minimax_return[0][0])
             pawnsDict = copy.deepcopy(minimax_return[0][1])
             wallDict = copy.deepcopy(minimax_return[0][2])
@@ -150,7 +150,7 @@ if(includePc == "da"):
                         DrawTable(tabla)
                         stanje = (tabla, pawnsDict, wallDict)
                         minimax_return = minimax3(
-                            stanje, 2, False, n, m, (stanje, -1000), (stanje, 1000))
+                            stanje, 0, False, n, m, (stanje, -1000), (stanje, 1000))
                         tabla = copy.deepcopy(minimax_return[0][0])
                         pawnsDict = copy.deepcopy(minimax_return[0][1])
                         wallDict = copy.deepcopy(minimax_return[0][2])
@@ -172,7 +172,7 @@ if(includePc == "da"):
                              spotAfterValidation)
                     stanje = (tabla, pawnsDict, wallDict)
                     minimax_return = minimax3(
-                        stanje, 2, False, n, m, (stanje, -1000), (stanje, 1000))
+                        stanje, 1, False, n, m, (stanje, -1000), (stanje, 1000))
                     tabla = copy.deepcopy(minimax_return[0][0])
                     pawnsDict = copy.deepcopy(minimax_return[0][1])
                     wallDict = copy.deepcopy(minimax_return[0][2])
