@@ -132,7 +132,7 @@ if(includePc == "da"):
             oldTable = copy.deepcopy(tabla)
 
             if(numOfWalls(wallDict, igrac1, bojaZida)):
-                if (spotAfterValidation != False and validWall(igrac1, bojaZida, (vrstaZid, kolonaZid), Game1.n, Game1.m)):
+                if (spotAfterValidation != False and validWall(wallDict, igrac1, bojaZida, (vrstaZid, kolonaZid), Game1.n, Game1.m)):
 
                     # Odigravanje poteza
                     DrawMove(tabla, pawnsDict, bojaZida, (vrstaZid, kolonaZid),
@@ -227,7 +227,7 @@ else:
         oldTable = copy.deepcopy(tabla)
 
         if(numOfWalls(wallDict, igrac1, bojaZida)):
-            if (spotAfterValidation != False and validWall(igrac1, bojaZida, (vrstaZid, kolonaZid), Game1.n, Game1.m)):
+            if (spotAfterValidation != False and validWall(wallDict, igrac1, bojaZida, (vrstaZid, kolonaZid), Game1.n, Game1.m)):
 
                 # Odigravanje poteza
                 DrawMove(tabla, pawnsDict, bojaZida, (vrstaZid, kolonaZid),

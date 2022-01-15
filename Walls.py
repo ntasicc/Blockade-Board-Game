@@ -31,7 +31,7 @@ def numOfWalls(dictionary: dict, player: str, color: str):
     return True
 
 
-def validWall(player: str, color: str, newsSpot: tuple, tableSizeN, tableSizeM):
+def validWall(wallDict: dict, player: str, color: str, newsSpot: tuple, tableSizeN, tableSizeM):
     if color == "p":
         if wallDict["num" + player][1] == 0:
             return False
