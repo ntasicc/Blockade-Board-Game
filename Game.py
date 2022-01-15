@@ -3,9 +3,7 @@ from Pawns import initialStateOfPawns, movePawn, pawnsDict
 from DrawBoard import DrawStart, DrawMove, DrawTable, ValidatePawnMove, DrawPawnMove
 from Walls import placeWall, validWall, wallDict, numOfWalls, initialStateOfWalls, NumOfColoredWall
 from Pathfinding import astar
-from StateOfTheBoard import allValidStates
-from MinMax import minimax2, checkValue
-from MinMax import minimax2
+from MinMax import minimax2, minimax3, checkValue
 import copy
 
 saveDictWalls = {}
@@ -90,7 +88,7 @@ if(includePc == "da"):
 
         if(firstPlay != "True"):
             stanje = (tabla, pawnsDict, wallDict)
-            minimax_return = minimax2(
+            minimax_return = minimax3(
                 stanje, 2, False, n, m, (stanje, -1000), (stanje, 1000))
             tabla = copy.deepcopy(minimax_return[0][0])
             pawnsDict = copy.deepcopy(minimax_return[0][1])
@@ -151,7 +149,7 @@ if(includePc == "da"):
                         Game1.numOfTurns += 1
                         DrawTable(tabla)
                         stanje = (tabla, pawnsDict, wallDict)
-                        minimax_return = minimax2(
+                        minimax_return = minimax3(
                             stanje, 2, False, n, m, (stanje, -1000), (stanje, 1000))
                         tabla = copy.deepcopy(minimax_return[0][0])
                         pawnsDict = copy.deepcopy(minimax_return[0][1])
@@ -173,7 +171,7 @@ if(includePc == "da"):
                     movePawn(pawnsDict, igrac1, brojPesaka,
                              spotAfterValidation)
                     stanje = (tabla, pawnsDict, wallDict)
-                    minimax_return = minimax2(
+                    minimax_return = minimax3(
                         stanje, 2, False, n, m, (stanje, -1000), (stanje, 1000))
                     tabla = copy.deepcopy(minimax_return[0][0])
                     pawnsDict = copy.deepcopy(minimax_return[0][1])

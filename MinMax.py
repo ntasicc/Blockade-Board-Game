@@ -102,3 +102,45 @@ def minimax2(stanje, dubina, moj_potez, tableSizeN, tableSizeM, alpha, beta, pot
         return (potez, checkValue(stanje))
 
     return fja(([minimax2(x, dubina - 1, not moj_potez, tableSizeN, tableSizeM, alpha, beta, x if potez is None else potez) for x in lp]), alpha, beta)
+
+
+def minimax3(state, depth, maximizingPlayer, tableSizeN, tableSizeM, alpha, beta):
+
+    if depth == 3:
+        return (state, checkValue(state))
+
+    igrac = "X" if maximizingPlayer else "O"
+    all_states = allValidStates(
+        state[0], state[1], state[2], igrac, 1, tableSizeN, tableSizeM)
+    all_states.extend(allValidStates(
+        state[0], state[1], state[2], igrac, 2, tableSizeN, tableSizeM))
+
+    if maximizingPlayer:
+        best = alpha
+
+        for new_state in all_states:
+
+            val = minimax3(new_state, depth + 1,
+                           False, tableSizeN, tableSizeM, alpha, beta)
+            best = max(best, val, key=lambda x: x[1])
+            alpha = max(alpha, best, key=lambda x: x[1])
+
+            if beta[1] <= alpha[1]:
+                break
+
+        return best
+
+    else:
+        best = beta
+
+        for new_state in all_states:
+
+            val = minimax3(new_state, depth + 1,
+                           True, tableSizeN, tableSizeM, alpha, beta)
+            best = min(best, val, key=lambda x: x[1])
+            beta = min(beta, best, key=lambda x: x[1])
+
+            if beta[1] <= alpha[1]:
+                break
+
+        return best
