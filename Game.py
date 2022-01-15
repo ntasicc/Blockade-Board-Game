@@ -3,7 +3,7 @@ from Pawns import initialStateOfPawns, movePawn, pawnsDict
 from DrawBoard import DrawStart, DrawMove, DrawTable, ValidatePawnMove, DrawPawnMove
 from Walls import placeWall, validWall, wallDict, numOfWalls, initialStateOfWalls, NumOfColoredWall
 from Pathfinding import astar
-from MinMax import minimax2, minimax3, checkValue
+from MinMax import minimax3, checkValue
 import copy
 
 saveDictWalls = {}
@@ -89,7 +89,7 @@ if(includePc == "da"):
         if(firstPlay != "True"):
             stanje = (tabla, pawnsDict, wallDict)
             minimax_return = minimax3(
-                stanje, 1, False, n, m, (stanje, -1000), (stanje, 1000))
+                stanje, 0, False, n, m, (stanje, -1000), (stanje, 1000))
             tabla = copy.deepcopy(minimax_return[0][0])
             pawnsDict = copy.deepcopy(minimax_return[0][1])
             wallDict = copy.deepcopy(minimax_return[0][2])
@@ -107,11 +107,11 @@ if(includePc == "da"):
                     "Uneti zeljeni potez, primer [X 2] [6 3] [z 4 9]: ")
                 koordinate = moveInput.split("] [")
                 brojPesaka = int(koordinate[0][3])
-                vrsta = int(koordinate[1][0])
-                kolona = int(koordinate[1][2])
-                bojaZida = koordinate[2][0]
-                vrstaZid = int(koordinate[2][2])
-                kolonaZid = int(koordinate[2][4])
+                vrsta = int(koordinate[1].split(" ")[0])
+                kolona = int(koordinate[1].split(" ")[1])
+                bojaZida = koordinate[2].split(" ")[0]
+                vrstaZid = int(koordinate[2].split(" ")[1])
+                kolonaZid = int(koordinate[2].split(" ")[2][0])
 
                 if(NumOfColoredWall(wallDict, igrac1, bojaZida) == 0):
                     print("Nemate vise zidova zadate boje")
@@ -120,8 +120,8 @@ if(includePc == "da"):
                 moveInput = input("Uneti zeljeni potez, primer [X 2] [6 3]: ")
                 koordinate = moveInput.split("] [")
                 brojPesaka = koordinate[0][3]
-                vrsta = koordinate[1][0]
-                kolona = koordinate[1][2]
+                vrsta = koordinate[1].split(" ")[0]
+                kolona = koordinate[1].split(" ")[1]
 
             spotAfterValidation = ValidatePawnMove(tabla,
                                                    pawnsDict, igrac1, brojPesaka, (vrsta, kolona))
@@ -172,7 +172,7 @@ if(includePc == "da"):
                              spotAfterValidation)
                     stanje = (tabla, pawnsDict, wallDict)
                     minimax_return = minimax3(
-                        stanje, 1, False, n, m, (stanje, -1000), (stanje, 1000))
+                        stanje, 0, False, n, m, (stanje, -1000), (stanje, 1000))
                     tabla = copy.deepcopy(minimax_return[0][0])
                     pawnsDict = copy.deepcopy(minimax_return[0][1])
                     wallDict = copy.deepcopy(minimax_return[0][2])
@@ -202,11 +202,11 @@ else:
                 "Uneti zeljeni potez, primer [X 2] [6 3] [z 4 9]: ")
             koordinate = moveInput.split("] [")
             brojPesaka = int(koordinate[0][3])
-            vrsta = int(koordinate[1][0])
-            kolona = int(koordinate[1][2])
-            bojaZida = koordinate[2][0]
-            vrstaZid = int(koordinate[2][2])
-            kolonaZid = int(koordinate[2][4])
+            vrsta = int(koordinate[1].split(" ")[0])
+            kolona = int(koordinate[1].split(" ")[1])
+            bojaZida = koordinate[2].split(" ")[0]
+            vrstaZid = int(koordinate[2].split(" ")[1])
+            kolonaZid = int(koordinate[2].split(" ")[2][0])
 
             if(NumOfColoredWall(wallDict, igrac1, bojaZida) == 0):
                 print("Nemate vise zidova zadate boje")
@@ -215,8 +215,8 @@ else:
             moveInput = input("Uneti zeljeni potez, primer [X 2] [6 3]: ")
             koordinate = moveInput.split("] [")
             brojPesaka = koordinate[0][3]
-            vrsta = koordinate[1][0]
-            kolona = koordinate[1][2]
+            vrsta = koordinate[1].split(" ")[0]
+            kolona = koordinate[1].split(" ")[1]
 
         spotAfterValidation = ValidatePawnMove(tabla,
                                                pawnsDict, igrac1, brojPesaka, (vrsta, kolona))
