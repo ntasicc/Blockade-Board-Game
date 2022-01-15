@@ -67,8 +67,8 @@ def allValidStates(tabla: list, pawnsDict: dict, wallDict: dict, player: str, pa
         bojaZida = boje[i]
         if(numOfWalls(wallDict, player, bojaZida)):
             for v in validSpots:
-                for i in range(1, tableSizeN):
-                    for j in range(1, tableSizeM):
+                for i in range(1, tableSizeN, 2):
+                    for j in range(1, tableSizeM, 2):
                         if (validWall(oldWallDict, player, bojaZida, (i, j), tableSizeN, tableSizeM)):
                             newTable = changeState(tabla, oldPawnsDict, bojaZida,
                                                    (i, j), player, pawn, v, True)
