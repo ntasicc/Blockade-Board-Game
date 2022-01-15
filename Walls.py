@@ -39,7 +39,7 @@ def validWall(wallDict: dict, player: str, color: str, newsSpot: tuple, tableSiz
         if wallDict["num" + player][0] == 0:
             return False
 
-    if (newsSpot[0] > tableSizeN-2) or (newsSpot[1] > tableSizeM-2):
+    if (newsSpot[0] > tableSizeN-1) or (newsSpot[1] > tableSizeM-1):
         return False
     if(color == 'z'):
         for x in wallDict['V']:

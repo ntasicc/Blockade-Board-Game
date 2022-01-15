@@ -3,7 +3,7 @@ from Pawns import initialStateOfPawns, movePawn, pawnsDict
 from DrawBoard import DrawStart, DrawMove, DrawTable, ValidatePawnMove, DrawPawnMove
 from Walls import placeWall, validWall, wallDict, numOfWalls, initialStateOfWalls, NumOfColoredWall
 from Pathfinding import astar
-from MinMax import minimax2, minimax3, checkValue
+from MinMax import minimax3, checkValue
 import copy
 
 saveDictWalls = {}
@@ -86,7 +86,7 @@ if(includePc == "da"):
 
         WrongParameters = True
 
-        if(firstPlay != "True"):
+        if((firstPlay != "True") and (Game1.numOfTurns == 0)):
             stanje = (tabla, pawnsDict, wallDict)
             minimax_return = minimax3(
                 stanje, 1, False, n, m, (stanje, -1000), (stanje, 1000))
@@ -97,8 +97,9 @@ if(includePc == "da"):
             WrongParameters = False
             Game1.numOfTurns += 1
             DrawTable(tabla)
+            continue
 
-        if((firstPlay == "True" and igrac1 == "X") or (firstPlay == False and igrac1 == "O")):
+        if((firstPlay == "True" and igrac1 == "X") or (firstPlay != "True" and igrac1 == "O")):
 
             print("Trenutno je na potezu " + igrac1+": ")
 
@@ -150,7 +151,7 @@ if(includePc == "da"):
                         DrawTable(tabla)
                         stanje = (tabla, pawnsDict, wallDict)
                         minimax_return = minimax3(
-                            stanje, 0, False, n, m, (stanje, -1000), (stanje, 1000))
+                            stanje, 1, False, n, m, (stanje, -1000), (stanje, 1000))
                         tabla = copy.deepcopy(minimax_return[0][0])
                         pawnsDict = copy.deepcopy(minimax_return[0][1])
                         wallDict = copy.deepcopy(minimax_return[0][2])
