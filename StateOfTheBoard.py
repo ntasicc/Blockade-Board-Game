@@ -16,27 +16,42 @@ def changeState(tabla: list, pawnsPositions: dict, color: str, position: tuple, 
     return tableForSimulation
 
 
+def addEndGoalsToList(spots: list, coord: tuple, end1: tuple, end2: tuple):
+    if(abs(coord[0]-end1[0])+abs(coord[1]-end1[1]) == 1):
+        spots.append(end1)
+    if(abs(coord[0]-end2[0])+abs(coord[1]-end2[1]) == 1):
+        spots.append(end2)
+
+
 def allValidStates(tabla: list, pawnsDict: dict, wallDict: dict, player: str, pawn: int, tableSizeN: int, tableSizeM: int):
     valid = list()
     validSpots = list()
     coord: tuple = pawnsDict[player][pawn-1]
+    endForX1 = pawnsDict['startO'][0]
+    endForX2 = pawnsDict['startO'][1]
+    endForO1 = pawnsDict['startX'][0]
+    endForO2 = pawnsDict['startX'][1]
 
     if pawnsDict['startX'][0][0] < pawnsDict['startO'][0][0]:
         # startna pozicija X je visa od O
         if player == 'X':
             spotsToCheck: list = [(coord[0]+2, coord[1]), (coord[0], coord[1]+2), (coord[0], coord[1]-2),
                                   (coord[0]+1, coord[1]+1), (coord[0]+1, coord[1]-1)]
+            addEndGoalsToList(spotsToCheck, coord, endForX1, endForX2)
         else:
             spotsToCheck: list = [(coord[0]-2, coord[1]), (coord[0], coord[1]+2), (coord[0], coord[1]-2),
                                   (coord[0]-1, coord[1]+1), (coord[0]-1, coord[1]-1)]
+            addEndGoalsToList(spotsToCheck, coord, endForO1, endForO2)
     else:
         # Startna pozicija X je niza od O
         if player == 'X':
             spotsToCheck: list = [(coord[0]-2, coord[1]), (coord[0], coord[1]+2), (coord[0], coord[1]-2),
                                   (coord[0]-1, coord[1]+1), (coord[0]-1, coord[1]-1)]
+            addEndGoalsToList(spotsToCheck, coord, endForX1, endForX2)
         else:
             spotsToCheck: list = [(coord[0]+2, coord[1]), (coord[0], coord[1]+2), (coord[0], coord[1]-2),
                                   (coord[0]+1, coord[1]+1), (coord[0]+1, coord[1]-1)]
+            addEndGoalsToList(spotsToCheck, coord, endForO1, endForO2)
 
     for s in spotsToCheck:
         spotAfterValidation = ValidatePawnMove(tabla,
