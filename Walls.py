@@ -21,7 +21,7 @@ def NumOfColoredWall(dictionary: dict, player: str, color: str):
     return dictionary['num'+player][0 if color == 'z' else 1]
 
 
-def numOfWalls(dictionary: dict, player: str, color: str):
+def numOfWalls(wallDict: dict, player: str, color: str):
     if color == "p":
         if wallDict["num" + player][1] == 0:
             return False

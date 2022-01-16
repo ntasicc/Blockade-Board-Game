@@ -22,7 +22,6 @@ def DrawMove(tabla: list, pawnsPosition: dict, color: str, position: tuple, play
 def DrawPawnMove(tabla: list, pawnsPosition: dict, player: str, pawn: int, newSpot: tuple):
     # Ovo se poziva za svaki potez
     UpdatePawn(tabla, pawnsPosition, player, pawn, newSpot)
-    DrawTable(tabla)
 
 
 def StartingBoardState(tableSizeN: int, tableSizeM: int):

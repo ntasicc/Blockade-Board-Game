@@ -89,7 +89,7 @@ if(includePc == "da"):
         if((firstPlay != "True") and (Game1.numOfTurns == 0)):
             stanje = (tabla, pawnsDict, wallDict)
             minimax_return = minimax3(
-                stanje, 0, False, n, m, (stanje, -1000), (stanje, 1000))
+                stanje, 1, False if firstPlay == "True" else True, n, m, (stanje, -1000), (stanje, 1000))
             tabla = copy.deepcopy(minimax_return[0][0])
             pawnsDict = copy.deepcopy(minimax_return[0][1])
             wallDict = copy.deepcopy(minimax_return[0][2])
@@ -120,9 +120,10 @@ if(includePc == "da"):
             else:
                 moveInput = input("Uneti zeljeni potez, primer [X 2] [6 3]: ")
                 koordinate = moveInput.split("] [")
-                brojPesaka = koordinate[0][3]
-                vrsta = koordinate[1].split(" ")[0]
-                kolona = koordinate[1].split(" ")[1]
+                brojPesaka = int(koordinate[0][3])
+                vrsta = int(koordinate[1].split(" ")[0])
+                kolona = int(koordinate[1].split(" ")[1][0])
+                bojaZida = 'p'
 
             spotAfterValidation = ValidatePawnMove(tabla,
                                                    pawnsDict, igrac1, brojPesaka, (vrsta, kolona))
@@ -144,14 +145,20 @@ if(includePc == "da"):
                               (vrstaZid, kolonaZid))
 
                     # Provera da li postoji put do cilja, ako ne postoji vraca se na stare vrednosti i potez se racuna kao nevalidan (na potezu je isti igrac)
-                    if(astar(tabla, pawnsDict['X'][0], pawnsDict['startO'][0]) and astar(tabla, pawnsDict['X'][0], pawnsDict['startO'][1]) and astar(tabla, pawnsDict['X'][1], pawnsDict['startO'][0]) and astar(tabla, pawnsDict['X'][1], pawnsDict['startO'][1]) and astar(tabla, pawnsDict['O'][0], pawnsDict['startX'][0]) and astar(tabla, pawnsDict['O'][0], pawnsDict['startX'][1]) and astar(tabla, pawnsDict['O'][1], pawnsDict['startX'][0]) and astar(tabla, pawnsDict['O'][1], pawnsDict['startX'][1])):
-                        #Game1.whoseTurnIs = not Game1.whoseTurnIs
+                    if((astar(tabla, pawnsDict['X'][0], pawnsDict['startO'][0]) and
+                        astar(tabla, pawnsDict['X'][0], pawnsDict['startO'][1]) and
+                        astar(tabla, pawnsDict['X'][1], pawnsDict['X'][0]) and
+                        astar(tabla, pawnsDict['O'][0], pawnsDict['startX'][0]) and
+                        astar(tabla, pawnsDict['O'][0], pawnsDict['startX'][1]) and
+                            astar(tabla, pawnsDict['O'][1], pawnsDict['O'][0]))):
+                        # Game1.whoseTurnIs = not Game1.whoseTurnIs
                         WrongParameters = False
                         Game1.numOfTurns += 1
                         DrawTable(tabla)
                         stanje = (tabla, pawnsDict, wallDict)
                         minimax_return = minimax3(
-                            stanje, 1, False, n, m, (stanje, -1000), (stanje, 1000))
+                            stanje, 1, False if firstPlay == "True" else True, n, m, (stanje, -1000), (stanje, 1000))
+                        Game1.numOfTurns += 1
                         tabla = copy.deepcopy(minimax_return[0][0])
                         pawnsDict = copy.deepcopy(minimax_return[0][1])
                         wallDict = copy.deepcopy(minimax_return[0][2])
@@ -169,18 +176,21 @@ if(includePc == "da"):
 
                     DrawPawnMove(tabla, pawnsDict, igrac1,
                                  brojPesaka, spotAfterValidation)
+                    DrawTable(tabla)
                     movePawn(pawnsDict, igrac1, brojPesaka,
                              spotAfterValidation)
+
+                    # Game1.whoseTurnIs = not Game1.whoseTurnIs
+                    WrongParameters = False
+                    Game1.numOfTurns += 1
                     stanje = (tabla, pawnsDict, wallDict)
                     minimax_return = minimax3(
-                        stanje, 0, False, n, m, (stanje, -1000), (stanje, 1000))
+                        stanje, 1, False if firstPlay == "True" else True, n, m, (stanje, -1000), (stanje, 1000))
+                    Game1.numOfTurns += 1
                     tabla = copy.deepcopy(minimax_return[0][0])
                     pawnsDict = copy.deepcopy(minimax_return[0][1])
                     wallDict = copy.deepcopy(minimax_return[0][2])
                     DrawTable(tabla)
-                    #Game1.whoseTurnIs = not Game1.whoseTurnIs
-                    WrongParameters = False
-                    Game1.numOfTurns += 1
 
         if Game1.IsItGameOver():
             break
@@ -215,9 +225,10 @@ else:
         else:
             moveInput = input("Uneti zeljeni potez, primer [X 2] [6 3]: ")
             koordinate = moveInput.split("] [")
-            brojPesaka = koordinate[0][3]
-            vrsta = koordinate[1].split(" ")[0]
-            kolona = koordinate[1].split(" ")[1]
+            brojPesaka = int(koordinate[0][3])
+            vrsta = int(koordinate[1].split(" ")[0])
+            kolona = int(koordinate[1].split(" ")[1][0])
+            bojaZida = 'p'
 
         spotAfterValidation = ValidatePawnMove(tabla,
                                                pawnsDict, igrac1, brojPesaka, (vrsta, kolona))
@@ -238,7 +249,12 @@ else:
                 temp = checkValue((tabla, pawnsDict, wallDict))
 
                 # Provera da li postoji put do cilja, ako ne postoji vraca se na stare vrednosti i potez se racuna kao nevalidan (na potezu je isti igrac)
-                if(astar(tabla, pawnsDict['X'][0], pawnsDict['startO'][0]) and astar(tabla, pawnsDict['X'][0], pawnsDict['startO'][1]) and astar(tabla, pawnsDict['X'][1], pawnsDict['startO'][0]) and astar(tabla, pawnsDict['X'][1], pawnsDict['startO'][1]) and astar(tabla, pawnsDict['O'][0], pawnsDict['startX'][0]) and astar(tabla, pawnsDict['O'][0], pawnsDict['startX'][1]) and astar(tabla, pawnsDict['O'][1], pawnsDict['startX'][0]) and astar(tabla, pawnsDict['O'][1], pawnsDict['startX'][1])):
+                if((astar(tabla, pawnsDict['X'][0], pawnsDict['startO'][0]) and
+                    astar(tabla, pawnsDict['X'][0], pawnsDict['startO'][1]) and
+                    astar(tabla, pawnsDict['X'][1], pawnsDict['X'][0]) and
+                    astar(tabla, pawnsDict['O'][0], pawnsDict['startX'][0]) and
+                    astar(tabla, pawnsDict['O'][0], pawnsDict['startX'][1]) and
+                        astar(tabla, pawnsDict['O'][1], pawnsDict['O'][0]))):
                     Game1.whoseTurnIs = not Game1.whoseTurnIs
                     WrongParameters = False
                     Game1.numOfTurns += 1
@@ -255,6 +271,7 @@ else:
             if spotAfterValidation != False:
                 DrawPawnMove(tabla, pawnsDict, igrac1,
                              brojPesaka, spotAfterValidation)
+                DrawTable(tabla)
                 movePawn(pawnsDict, igrac1, brojPesaka, spotAfterValidation)
 
                 Game1.whoseTurnIs = not Game1.whoseTurnIs

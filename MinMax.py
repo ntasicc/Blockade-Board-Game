@@ -12,9 +12,9 @@ def checkValue(stanje):
         allWalls.extend(stanje[2]['H'])
         for wall in allWalls:
             if(wall[0] >= min(current_pos[0], end0[0]) and wall[0] <= max(current_pos[0], end0[0]) and wall[1] >= min(current_pos[1], end0[1]) and wall[1] <= max(current_pos[1], end0[1])):
-                score += 10
+                score += 20
             if(wall[0] >= min(current_pos[0], end1[0]) and wall[0] <= max(current_pos[0], end1[0]) and wall[1] >= min(current_pos[1], end1[1]) and wall[1] <= max(current_pos[1], end1[1])):
-                score += 10
+                score += 20
 
         distance0 = abs((current_pos[0] - end0[0]) +
                         (current_pos[1] - end0[1]))
@@ -23,9 +23,9 @@ def checkValue(stanje):
 
         temp = min(distance0, distance1)
         if(temp == 2):
-            score += 500
+            score += 50
         elif(temp == 1):
-            score += 1000
+            score += 100
         else:
             score += temp
 
@@ -38,9 +38,9 @@ def checkValue(stanje):
         allWalls.extend(stanje[2]['H'])
         for wall in allWalls:
             if(wall[0] >= min(current_pos[0], end0[0]) and wall[0] <= max(current_pos[0], end0[0]) and wall[1] >= min(current_pos[1], end0[1]) and wall[1] <= max(current_pos[1], end0[1])):
-                score += 10
+                score -= 20
             if(wall[0] >= min(current_pos[0], end1[0]) and wall[0] <= max(current_pos[0], end1[0]) and wall[1] >= min(current_pos[1], end1[1]) and wall[1] <= max(current_pos[1], end1[1])):
-                score += 10
+                score -= 20
 
         distance0 = abs((current_pos[0] - end0[0]) +
                         (current_pos[1] - end0[1]))
@@ -48,9 +48,9 @@ def checkValue(stanje):
                         (current_pos[1] - end1[1]))
         temp = min(distance0, distance1)
         if(temp == 2):
-            score -= 500
+            score -= 50
         elif(temp == 1):
-            score -= 1000
+            score -= 100
         else:
             score -= temp
 

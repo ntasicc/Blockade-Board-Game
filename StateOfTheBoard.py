@@ -76,7 +76,12 @@ def allValidStates(tabla: list, pawnsDict: dict, wallDict: dict, player: str, pa
                                      v)
                             placeWall(oldWallDict, player, bojaZida, (i, j))
 
-                            if(astar(newTable, oldPawnsDict['X'][0], oldPawnsDict['startO'][0]) and astar(newTable, oldPawnsDict['X'][0], oldPawnsDict['startO'][1]) and astar(newTable, oldPawnsDict['X'][1], oldPawnsDict['startO'][0]) and astar(newTable, oldPawnsDict['X'][1], oldPawnsDict['startO'][1]) and astar(newTable, oldPawnsDict['O'][0], oldPawnsDict['startX'][0]) and astar(newTable, oldPawnsDict['O'][0], oldPawnsDict['startX'][1]) and astar(newTable, oldPawnsDict['O'][1], oldPawnsDict['startX'][0]) and astar(newTable, oldPawnsDict['O'][1], oldPawnsDict['startX'][1])):
+                            if((astar(newTable, oldPawnsDict['X'][0], oldPawnsDict['startO'][0]) and
+                                astar(newTable, oldPawnsDict['X'][0], oldPawnsDict['startO'][1]) and
+                                astar(newTable, oldPawnsDict['X'][1], oldPawnsDict['X'][0]) and
+                                astar(newTable, oldPawnsDict['O'][0], oldPawnsDict['startX'][0]) and
+                                astar(newTable, oldPawnsDict['O'][0], oldPawnsDict['startX'][1]) and
+                                    astar(newTable, oldPawnsDict['O'][1], oldPawnsDict['O'][0]))):
                                 valid.append(
                                     (newTable, oldPawnsDict, oldWallDict))
 
