@@ -112,7 +112,8 @@ if(includePc == "da"):
                 kolona = int(koordinate[1].split(" ")[1])
                 bojaZida = koordinate[2].split(" ")[0]
                 vrstaZid = int(koordinate[2].split(" ")[1])
-                kolonaZid = int(koordinate[2].split(" ")[2][0])
+                kln = koordinate[2].split(" ")[2]
+                kolonaZid = int(kln.split("]")[0])
 
                 if(NumOfColoredWall(wallDict, igrac1, bojaZida) == 0):
                     print("Nemate vise zidova zadate boje")
@@ -122,7 +123,8 @@ if(includePc == "da"):
                 koordinate = moveInput.split("] [")
                 brojPesaka = int(koordinate[0][3])
                 vrsta = int(koordinate[1].split(" ")[0])
-                kolona = int(koordinate[1].split(" ")[1][0])
+                kln = koordinate[1].split(" ")[1]
+                kolona = int(kln.split("]")[0])
                 bojaZida = 'p'
 
             spotAfterValidation = ValidatePawnMove(tabla,
@@ -217,7 +219,8 @@ else:
             kolona = int(koordinate[1].split(" ")[1])
             bojaZida = koordinate[2].split(" ")[0]
             vrstaZid = int(koordinate[2].split(" ")[1])
-            kolonaZid = int(koordinate[2].split(" ")[2][0])
+            kln = koordinate[2].split(" ")[2]
+            kolonaZid = int(kln.split("]")[0])
 
             if(NumOfColoredWall(wallDict, igrac1, bojaZida) == 0):
                 print("Nemate vise zidova zadate boje")
@@ -227,7 +230,8 @@ else:
             koordinate = moveInput.split("] [")
             brojPesaka = int(koordinate[0][3])
             vrsta = int(koordinate[1].split(" ")[0])
-            kolona = int(koordinate[1].split(" ")[1][0])
+            kln = koordinate[1].split(" ")[1]
+            kolona = int(kln.split("]")[0])
             bojaZida = 'p'
 
         spotAfterValidation = ValidatePawnMove(tabla,
