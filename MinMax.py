@@ -72,7 +72,7 @@ def minimax3(state, depth, maximizingPlayer, tableSizeN, tableSizeM, alpha, beta
         return (potez, checkValue(state))
 
     if maximizingPlayer:
-        best = (("banana"), -1000)
+        best = (("min"), -1000)
 
         for new_state in all_states:
 
@@ -87,7 +87,7 @@ def minimax3(state, depth, maximizingPlayer, tableSizeN, tableSizeM, alpha, beta
         return best
 
     else:
-        best = (("banana"), 1000)
+        best = (("max"), 1000)
 
         for new_state in all_states:
 

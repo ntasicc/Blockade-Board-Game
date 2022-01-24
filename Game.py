@@ -89,7 +89,7 @@ if(includePc == "da"):
         if((firstPlay != "True") and (Game1.numOfTurns == 0)):
             stanje = (tabla, pawnsDict, wallDict)
             minimax_return = minimax3(
-                stanje, 1, False if firstPlay == "True" else True, n, m, (stanje, -1000), (stanje, 1000))
+                stanje, 2, False if firstPlay == "True" else True, n, m, (stanje, -1000), (stanje, 1000))
             tabla = copy.deepcopy(minimax_return[0][0])
             pawnsDict = copy.deepcopy(minimax_return[0][1])
             wallDict = copy.deepcopy(minimax_return[0][2])
@@ -157,7 +157,7 @@ if(includePc == "da"):
                         DrawTable(tabla)
                         stanje = (tabla, pawnsDict, wallDict)
                         minimax_return = minimax3(
-                            stanje, 1, False if firstPlay == "True" else True, n, m, (stanje, -1000), (stanje, 1000))
+                            stanje, 2, False if firstPlay == "True" else True, n, m, (stanje, -1000), (stanje, 1000))
                         Game1.numOfTurns += 1
                         tabla = copy.deepcopy(minimax_return[0][0])
                         pawnsDict = copy.deepcopy(minimax_return[0][1])
@@ -185,7 +185,7 @@ if(includePc == "da"):
                     Game1.numOfTurns += 1
                     stanje = (tabla, pawnsDict, wallDict)
                     minimax_return = minimax3(
-                        stanje, 1, False if firstPlay == "True" else True, n, m, (stanje, -1000), (stanje, 1000))
+                        stanje, 0, False if firstPlay == "True" else True, n, m, (stanje, -1000), (stanje, 1000))
                     Game1.numOfTurns += 1
                     tabla = copy.deepcopy(minimax_return[0][0])
                     pawnsDict = copy.deepcopy(minimax_return[0][1])
